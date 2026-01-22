@@ -1,0 +1,185 @@
+{
+  "position_monitor": {
+    "enabled": true,
+    "scan_interval_seconds": 60,
+    "auto_execute_decisions": false,
+    "decision_cache_ttl_seconds": 60,
+    "risk_management": {
+      "max_loss_per_position_pct": 5.0,
+      "target_profit_pct": 10.0,
+      "trailing_stop_trigger_pct": 3.0,
+      "partial_close_profit_pct": 8.0,
+      "partial_close_ratio": 0.5
+    },
+    "decision_weights": {
+      "risk_analysis": 0.3,
+      "technical_analysis": 0.25,
+      "fundamental_analysis": 0.2,
+      "news_sentiment": 0.15,
+      "ai_models": 0.1
+    },
+    "thresholds": {
+      "close_threshold": -30,
+      "adjust_threshold": 20,
+      "min_confidence": 0.6
+    },
+    "supported_platforms": {
+      "mt5": {
+        "enabled": true,
+        "symbols": ["XAUUSD", "EURUSD", "GBPUSD", "USDJPY"]
+      },
+      "binance": {
+        "enabled": true,
+        "symbols": ["BTCUSDT", "ETHUSDT"]
+      },
+      "okx": {
+        "enabled": true,
+        "symbols": ["BTC-USDT", "ETH-USDT"]
+      },
+      "bybit": {
+        "enabled": true,
+        "symbols": ["BTCUSDT", "ETHUSDT"]
+      }
+    }
+  },
+  "trailing_stop": {
+    "enabled": true,
+    "default_strategy": "dynamic",
+    "activation_profit_pct": 2.0,
+    "trailing_distance_pct": 1.0,
+    "step_size_pct": 0.5,
+    "atr_multiplier": 2.0,
+    "lock_profit_pct": 50.0,
+    "max_trailing_distance_pct": 5.0,
+    "min_trailing_distance_pct": 0.3,
+    "strategies": {
+      "percentage": {
+        "description": "基于固定百分比的移动止损",
+        "best_for": "稳定趋势市场"
+      },
+      "atr": {
+        "description": "基于ATR波动率的移动止损",
+        "best_for": "高波动市场"
+      },
+      "support_resistance": {
+        "description": "基于支撑阻力位的移动止损",
+        "best_for": "横盘震荡市场"
+      },
+      "chandelier": {
+        "description": "吊灯止损(Chandelier Exit)",
+        "best_for": "趋势跟踪"
+      },
+      "parabolic_sar": {
+        "description": "抛物线SAR移动止损",
+        "best_for": "强趋势市场"
+      },
+      "dynamic": {
+        "description": "根据市场波动率自动选择最优策略",
+        "best_for": "所有市场条件(推荐)"
+      }
+    }
+  },
+  "free_data_sources": {
+    "enabled": true,
+    "cache_ttl_seconds": 300,
+    "crypto": {
+      "coingecko": {
+        "enabled": true,
+        "rate_limit_per_minute": 50
+      },
+      "alternative_me": {
+        "enabled": true,
+        "description": "恐惧贪婪指数"
+      }
+    },
+    "forex": {
+      "exchangerate_api": {
+        "enabled": true,
+        "rate_limit_per_month": 1500
+      }
+    },
+    "news": {
+      "cryptopanic": {
+        "enabled": false,
+        "api_key": "",
+        "note": "需要免费注册获取API key"
+      },
+      "reddit": {
+        "enabled": true,
+        "rate_limit_per_minute": 60,
+        "subreddits": ["cryptocurrency", "forex", "Bitcoin", "ethereum"]
+      }
+    },
+    "onchain": {
+      "blockchain_com": {
+        "enabled": true,
+        "description": "比特币链上数据",
+        "api_key_required": false
+      },
+      "etherscan": {
+        "enabled": false,
+        "api_key": "",
+        "rate_limit_per_second": 5,
+        "note": "需要免费注册获取API key"
+      }
+    },
+    "ai_indicators": {
+      "huggingface": {
+        "enabled": false,
+        "api_key": "",
+        "note": "可选:使用Hugging Face免费推理API进行情绪分析"
+      }
+    }
+  },
+  "proprietary_models": {
+    "enabled": true,
+    "models_dir": "training/models/proprietary",
+    "db_path": "training/proprietary_trades.db",
+    "training": {
+      "min_trades_for_training": 100,
+      "validation_split": 0.2,
+      "auto_retrain_interval_days": 7,
+      "feature_importance_threshold": 0.05
+    },
+    "models": {
+      "entry_signal": {
+        "enabled": true,
+        "model_type": "RandomForestClassifier",
+        "n_estimators": 100,
+        "max_depth": 10
+      },
+      "exit_signal": {
+        "enabled": true,
+        "model_type": "RandomForestClassifier",
+        "n_estimators": 100,
+        "max_depth": 10
+      },
+      "position_sizing": {
+        "enabled": true,
+        "model_type": "RandomForestRegressor",
+        "n_estimators": 100,
+        "max_depth": 8
+      }
+    },
+    "performance_targets": {
+      "min_win_rate": 0.55,
+      "min_profit_factor": 1.5,
+      "max_drawdown_pct": 15.0,
+      "min_sharpe_ratio": 1.0
+    }
+  },
+  "integration": {
+    "telegram_notifications": {
+      "enabled": true,
+      "notify_on_decision": true,
+      "notify_on_trailing_stop_activation": true,
+      "notify_on_model_prediction": false,
+      "notify_on_model_training": true
+    },
+    "auto_record_trades": {
+      "enabled": true,
+      "record_to_proprietary_db": true,
+      "min_duration_minutes": 1
+    }
+  }
+}

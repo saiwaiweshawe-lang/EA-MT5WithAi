@@ -1,6 +1,6 @@
-# MT5加密货币交易系统 (AI增强版 v2.2)
+# MT5加密货币交易系统 (AI增强版 v2.3)
 
-一个功能完整的智能交易系统，支持MetaTrader 5外汇黄金EA和币圈交易所交易，集成多个AI模型、每日盈亏AI分析、紧急熔断保护、自动复盘、自我进化、影子训练、实盘数据获取等高级功能。
+一个功能完整的智能交易系统,支持MetaTrader 5外汇黄金EA和币圈交易所交易,集成多个AI模型、智能持仓监控、高级移动止损、免费顶级数据源、自有交易模型培养、每日盈亏AI分析、紧急熔断保护、自动复盘、自我进化、影子训练、实盘数据获取等高级功能。
 
 ## 系统架构
 
@@ -21,15 +21,21 @@ trading-system/
 ├── dynamic_indicators/        # 动态指标系统
 │   └── dynamic_system.py     # 动态指标
 ├── training/                 # 训练与进化
-│   └── self_evolution.py    # 自我进化
+│   ├── self_evolution.py    # 自我进化
+│   └── proprietary_model_trainer.py  # 自有模型训练 (NEW v2.3)
 ├── shadow_trading/           # 影子训练场
 │   └── shadow_engine.py     # 影子交易引擎
 ├── logs/                     # 日志系统
 │   ├── review_system.py     # 复盘系统
 │   ├── daily_analyzer.py    # 每日盈亏分析
 │   └── circuit_breaker.py   # 熔断器
-├── market_data/             # 实盘数据模块 (NEW)
+├── market_data/             # 实盘数据模块
 │   └── real_data_provider.py # 实盘数据提供者
+├── position_management/     # 持仓管理模块 (NEW v2.3)
+│   ├── smart_position_monitor.py  # 智能持仓监控
+│   └── trailing_stop_engine.py    # 高级移动止损引擎
+├── data_sources/            # 数据源集成 (NEW v2.3)
+│   └── free_premium_sources.py   # 免费顶级数据源
 ├── vps/                      # VPS配置
 │   └── vps_config.py       # VPS自动配置
 ├── utilitities/              # 工具模块
@@ -39,7 +45,8 @@ trading-system/
 │   ├── server_config.json   # 服务器配置
 │   ├── ea_config.json       # EA配置
 │   ├── vps_config.json     # VPS配置
-│   └── ai_config.json      # AI配置
+│   ├── ai_config.json      # AI配置
+│   └── position_management_config.json  # 持仓管理配置 (NEW v2.3)
 └── requirements.txt          # Python依赖
 ```
 
