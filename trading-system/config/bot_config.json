@@ -23,5 +23,28 @@
     "trade_alerts": true,
     "profit_alerts": true,
     "loss_alerts": true
+  },
+  "daily_analysis": {
+    "enabled": true,
+    "report_time": "23:30",
+    "db_path": "logs/trading.db",
+    "daily_loss_threshold": -500,
+    "daily_profit_target": 200
+  },
+  "circuit_breaker": {
+    "enabled": true,
+    "max_loss_per_day": -1000,
+    "max_consecutive_losses": 5,
+    "max_drawdown_pct": 10,
+    "auto_stop_trading": true,
+    "notify_on_trigger": true,
+    "auto_recover_after_hours": 24,
+    "state_file": "logs/circuit_state.json"
+  },
+  "alerts": {
+    "large_loss_threshold": -200,
+    "large_profit_threshold": 200,
+    "high_risk_consecutive_losses": 3,
+    "daily_target_bonus_threshold": 500
   }
 }

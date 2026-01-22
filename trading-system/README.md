@@ -1,6 +1,6 @@
-# MT5加密货币交易系统 (AI增强版)
+# MT5加密货币交易系统 (AI增强版 v2.1)
 
-一个功能完整的智能交易系统，支持MetaTrader 5外汇黄金EA和币圈交易所交易，集成多个AI模型、自动复盘、自我进化、影子训练等高级功能。
+一个功能完整的智能交易系统，支持MetaTrader 5外汇黄金EA和币圈交易所交易，集成多个AI模型、每日盈亏AI分析、紧急熔断保护、自动复盘、自我进化、影子训练等高级功能。
 
 ## 系统架构
 
@@ -9,7 +9,7 @@ trading-system/
 ├── mt5-ea/                  # MT5 EA文件
 │   └── GoldTradingEA.mq5
 ├── bots/                     # 交易机器人模块
-│   ├── telegram_bot.py        # Telegram机器人
+│   ├── telegram_bot.py        # Telegram增强机器人
 │   ├── mt5_bridge.py        # MT5桥接
 │   └── exchange_trader.py    # 交易所交易
 ├── api/                      # 远程控制API
@@ -25,7 +25,9 @@ trading-system/
 ├── shadow_trading/           # 影子训练场
 │   └── shadow_engine.py     # 影子交易引擎
 ├── logs/                     # 日志系统
-│   └── review_system.py     # 复盘系统
+│   ├── review_system.py     # 复盘系统
+│   ├── daily_analyzer.py    # 每日盈亏分析
+│   └── circuit_breaker.py   # 熔断器
 ├── vps/                      # VPS配置
 │   └── vps_config.py       # VPS自动配置
 ├── utilitities/              # 工具模块
@@ -40,6 +42,32 @@ trading-system/
 ```
 
 ## 功能特性
+
+### 每日盈亏AI分析 (NEW)
+- 自动分析每日交易表现
+- AI智能解读交易数据
+- 识别最佳交易时段
+- 生成改进建议
+- 多维度统计（平台/品种/时间段）
+- 连盈连亏分析
+- 简洁/详细双版报告
+
+### 紧急熔断保护 (NEW)
+- 日亏损阈值触发
+- 连续亏损自动暂停
+- 最大回撤保护
+- 过度交易限制
+- 自动恢复机制
+- 实时TG通知
+- 手动重置功能
+
+### Telegram增强机器人
+- 每日定时报告
+- AI分析推送
+- 熔断状态查询
+- 实时风险警报
+- 大额交易通知
+- 目标达成提醒
 
 ### AI集成
 - 支持OpenAI GPT-4
@@ -63,14 +91,6 @@ trading-system/
 - 多交易对支持
 - 自动策略执行
 - AI决策集成
-
-### Telegram机器人
-- 实时交易通知
-- 手动下单/平仓
-- 查看账户状态
-- 查看待持仓位
-- 策略控制
-- AI分析报告
 
 ### 域名远程控制
 - RESTful API接口
@@ -193,66 +213,86 @@ python bots/telegram_bot.py
 # 将mt5-ea/GoldTradingEA.mq5复制到MT5目录
 ```
 
-### 自我进化训练
+### Telegram命令
 
-```bash
-python training/self_evolution.py
-```
+| 命令 | 说明 |
+|------|------|
+| /start | 启动机器人 |
+| /help | 显示帮助信息 |
+| /status | 查看系统状态 |
+| /balance | 查看账户余额 |
+| /positions | 查看待持仓位 |
+| /trade | 执行交易 |
+| /close | 平仓 |
+| /settings | 查看设置 |
+| /report | 生成AI分析报告 |
+| /daily [date] | 每日盈亏分析 |
+| /daily detailed | 详细版每日报告 |
+| /circuit | 查看熔断状态 |
+| /reset_circuit | 手动重置熔断器 |
 
-### 影子训练场测试
+### 熔断保护
 
-```bash
-python shadow_trading/shadow_engine.py
-```
+熔断保护会在以下情况自动触发：
 
-### 生成复盘报告
+1. 日亏损达到阈值
+2. 连续亏损次数超过设定值
+3. 最大回撤超过设定百分比
+4. 过度交易（超过50笔且亏损）
 
-```bash
-python logs/review_system.py
-```
+触发后：
+- 自动停止新开仓
+- 发送TG通知
+- 24小时后自动恢复
 
-### 清理系统垃圾
-
-```bash
-python utilitities/cleaner.py
-```
+手动操作：
+- /circuit - 查看熔断状态
+- /reset_circuit - 手动重置
 
 ## 配置说明
 
-### AI配置 (config/ai_config.json)
+### 熔断配置 (config/bot_config.json)
 
 ```json
 {
-  "ai": {
-    "models": {
-      "openai": {
-        "enabled": false,
-        "api_key": ""
-      },
-      "deepseek": {
-        "enabled": true,
-        "api_key": "your-api-key"
-      }
-    },
-    "voting_method": "weighted"
+  "circuit_breaker": {
+    "enabled": true,
+    "max_loss_per_day": -1000,
+    "max_consecutive_losses": 5,
+    "max_drawdown_pct": 10,
+    "auto_stop_trading": true,
+    "notify_on_trigger": true,
+    "auto_recover_after_hours": 24,
+    "state_file": "logs/circuit_state.json"
   }
 }
 ```
 
-### 新闻源配置
+### 每日分析配置
 
-支持的免费新闻源：
-- RSS源（完全免费）
-- CryptoCompare（部分免费）
-- NewsAPI.org（需要API Key）
-- Finnhub（需要API Key）
+```json
+{
+  "daily_analysis": {
+    "enabled": true,
+    "report_time": "23:30",
+    "daily_loss_threshold": -500,
+    "daily_profit_target": 200
+  }
+}
+```
 
-### 动态指标配置
+### 警报配置
 
-所有指标支持：
-- 自动参数调整
-- 市场状态识别
-- 自适应周期
+```json
+{
+  "alerts": {
+    "large_loss_threshold": -200,
+    "large_profit_threshold": 200,
+    "high_risk_consecutive_losses": 3,
+    "daily_target_bonus_threshold": 500
+  }
+}
+```
 
 ### VPS配置文件
 
@@ -265,47 +305,26 @@ python utilitities/cleaner.py
 
 ## API接口
 
-### AI分析
+### 熔断状态
 
 ```bash
-POST /api/ai/analyze
-{
-  "api_key": "your-key",
-  "market_data": {...},
-  "indicators": {...},
-  "news": [...]
-}
+GET /api/circuit/status
 ```
 
-### 获取AI决策
-
-```bash
-POST /api/ai/decision
-{
-  "api_key": "your-key",
-  "symbol": "XAUUSD",
-  "timeframe": "H1"
-}
-```
-
-### 影子交易
-
-```bash
-POST /api/shadow/trade
-{
-  "api_key": "your-key",
-  "symbol": "XAUUSD",
-  "action": "buy",
-  "price": 2025.50,
-  "parameters": {...}
-}
-```
-
-### 获取复盘报告
+### 每日报告
 
 ```bash
 GET /api/reports/daily?date=2024-01-22
 GET /api/reports/weekly?start=2024-01-15
+```
+
+### 熔断手动控制
+
+```bash
+POST /api/circuit/reset
+{
+  "api_key": "your-key"
+}
 ```
 
 ## 交易策略
@@ -362,6 +381,16 @@ MIT License
 - 发送邮件
 
 ## 更新日志
+
+### v2.1.0 (熔断与AI分析版)
+- 添加每日盈亏AI分析功能
+- 实现TG文本推送
+- 开发紧急熔断保护
+- 多维度交易统计
+- 连盈连亏分析
+- 自动定时报告
+- 风险等级评估
+- AI智能建议生成
 
 ### v2.0.0 (AI增强版)
 - 集成多个AI模型
