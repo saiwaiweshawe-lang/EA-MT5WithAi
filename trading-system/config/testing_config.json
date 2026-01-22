@@ -1,0 +1,52 @@
+{
+  "testing": {
+    "test_dir": "tests",
+    "reports_dir": "reports/tests",
+    "coverage_threshold": 80,
+    "parallel_execution": false
+  },
+  "backtesting": {
+    "data_dir": "data/backtest",
+    "reports_dir": "reports/backtests",
+    "default_capital": 100000.0,
+    "commission_rate": 0.001,
+    "slippage": 0.0001
+  },
+  "strategies": {
+    "ma_crossover": {
+      "fast_period": 10,
+      "slow_period": 30,
+      "enabled": true
+    },
+    "rsi": {
+      "period": 14,
+      "overbought": 70,
+      "oversold": 30,
+      "enabled": false
+    },
+    "bollinger_bands": {
+      "period": 20,
+      "std_dev": 2,
+      "enabled": false
+    }
+  },
+  "optimization": {
+    "method": "grid_search",
+    "metrics": ["sharpe_ratio", "total_return", "max_drawdown"],
+    "param_ranges": {
+      "fast_period": [5, 10, 15, 20],
+      "slow_period": [20, 30, 40, 50]
+    }
+  },
+  "data_sources": {
+    "mt5": {
+      "enabled": true,
+      "timeframes": ["M1", "M5", "M15", "M30", "H1", "H4", "D1"]
+    },
+    "csv": {
+      "enabled": true,
+      "delimiter": ",",
+      "date_format": "%Y-%m-%d %H:%M:%S"
+    }
+  }
+}

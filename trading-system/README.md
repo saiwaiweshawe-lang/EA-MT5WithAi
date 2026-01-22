@@ -1,6 +1,6 @@
-# MT5加密货币交易系统 (AI增强版 v2.5)
+# MT5加密货币交易系统 (AI增强版 v2.6)
 
-一个功能完整的智能交易系统,支持MetaTrader 5外汇黄金EA和币圈交易所交易,集成多个AI模型、智能持仓监控、高级移动止损、免费顶级数据源、自有交易模型培养、每日盈亏AI分析、紧急熔断保护、自动复盘、自我进化、影子训练、实盘数据获取、性能监控、自动更新、**CPU智能限制**、**双服务器部署架构**等高级功能。
+一个功能完整的智能交易系统,支持MetaTrader 5外汇黄金EA和币圈交易所交易,集成多个AI模型、智能持仓监控、高级移动止损、免费顶级数据源、自有交易模型培养、每日盈亏AI分析、紧急熔断保护、自动复盘、自我进化、影子训练、实盘数据获取、性能监控、自动更新、**CPU智能限制**、**双服务器部署架构**、**企业级高可用架构**等高级功能。
 
 ## 系统架构
 
@@ -45,7 +45,16 @@ trading-system/
 │   ├── logger.py           # 统一日志工具 (NEW v2.4)
 │   ├── cpu_limiter.py      # CPU智能限制器 (NEW v2.5)
 │   ├── server_role_manager.py  # 服务器角色管理 (NEW v2.5)
-│   └── cpu_integration_example.py  # CPU限制集成示例 (NEW v2.5)
+│   ├── cpu_integration_example.py  # CPU限制集成示例 (NEW v2.5)
+│   ├── backup_manager.py   # 备份管理器 (NEW v2.6)
+│   ├── encryption_manager.py  # 加密管理器 (NEW v2.6)
+│   ├── process_manager.py  # 进程管理器 (NEW v2.6)
+│   ├── monitoring.py       # 监控告警系统 (NEW v2.6)
+│   ├── config_manager.py   # 配置管理器 (NEW v2.6)
+│   ├── log_aggregator.py   # 日志聚合器 (NEW v2.6)
+│   ├── backtesting_engine.py  # 回测引擎 (NEW v2.6)
+│   ├── api_security.py     # API安全管理 (NEW v2.6)
+│   └── server_sync.py      # 服务器同步 (NEW v2.6)
 ├── config/                   # 配置文件
 │   ├── bot_config.json      # 机器人配置
 │   ├── server_config.json   # 服务器配置

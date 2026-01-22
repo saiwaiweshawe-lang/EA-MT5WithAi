@@ -5,6 +5,10 @@
 echo "停止MT5加密货币交易系统..."
 echo ""
 
+# 获取脚本所在目录
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd "$SCRIPT_DIR"
+
 # 检查是否使用了systemd服务
 if systemctl is-active --quiet trading-bot || systemctl is-active --quiet trading-api 2>/dev/null; then
     echo "[1] 检测到systemd服务，停止服务..."
@@ -24,32 +28,9 @@ if systemctl is-active --quiet trading-bot || systemctl is-active --quiet tradin
     exit 0
 fi
 
-# 检查screen进程
-if command -v screen &> /dev/null; then
-    echo "[1] 停止screen进程..."
-
-    # 停止trading-bot
-    if screen -ls | grep -q "trading-bot"; then
-        screen -S trading-bot -X quit
-        echo "  - trading-bot 已停止"
-    else
-        echo "  - trading-bot 未运行"
-    fi
-
-    # 停止trading-api
-    if screen -ls | grep -q "trading-api"; then
-        screen -S trading-api -X quit
-        echo "  - trading-api 已停止"
-    else
-        echo "  - trading-api 未运行"
-    fi
-else
-    echo "[1] 未找到screen，尝试直接终止进程..."
-
-    # 查找并终止Python进程
-    pkill -f "python.*telegram_bot.py" && echo "  - Telegram Bot 已停止" || echo "  - Telegram Bot 未运行"
-    pkill -f "python.*api/server.py" && echo "  - API Server 已停止" || echo "  - API Server 未运行"
-fi
+# 使用统一的组件启动器停止所有组件
+echo "[1] 使用组件启动器停止所有组件..."
+python component_launcher.py --stop
 
 echo ""
 echo "========================================"

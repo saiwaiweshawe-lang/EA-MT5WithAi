@@ -1,0 +1,44 @@
+{
+  "backup_dir": "backups",
+  "schedule": {
+    "enabled": true,
+    "interval_hours": 24,
+    "time": "03:00",
+    "description": "每天凌晨3点自动备份"
+  },
+  "retention": {
+    "keep_daily": 7,
+    "keep_weekly": 4,
+    "keep_monthly": 3,
+    "description": "保留7天的每日备份、4周的每周备份、3个月的每月备份"
+  },
+  "backup_targets": {
+    "config": true,
+    "database": true,
+    "logs": true,
+    "state_files": true,
+    "description": "备份目标选择"
+  },
+  "remote_backup": {
+    "enabled": false,
+    "type": "local",
+    "path": "/backup/remote",
+    "description": "远程备份配置,type可选: local, s3, oss, ftp"
+  },
+  "compression": {
+    "enabled": true,
+    "level": 6,
+    "description": "压缩级别 1-9, 9为最高压缩"
+  },
+  "encryption": {
+    "enabled": false,
+    "key_file": "config/.backup_key",
+    "description": "备份加密(暂未实现)"
+  },
+  "notification": {
+    "enabled": true,
+    "on_success": false,
+    "on_failure": true,
+    "description": "通知设置"
+  }
+}

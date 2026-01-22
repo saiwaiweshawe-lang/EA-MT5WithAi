@@ -1,0 +1,95 @@
+{
+  "monitoring": {
+    "interval_seconds": 30,
+    "metrics_retention_hours": 24,
+    "alert_retention_days": 7,
+    "description": "监控数据收集间隔和保留策略"
+  },
+  "thresholds": {
+    "cpu": {
+      "warning": 70,
+      "critical": 85,
+      "description": "CPU使用率阈值(%)"
+    },
+    "memory": {
+      "warning": 75,
+      "critical": 90,
+      "description": "内存使用率阈值(%)"
+    },
+    "disk": {
+      "warning": 80,
+      "critical": 95,
+      "description": "磁盘使用率阈值(%)"
+    },
+    "response_time": {
+      "warning": 1000,
+      "critical": 3000,
+      "description": "API响应时间阈值(ms)"
+    }
+  },
+  "notifications": {
+    "telegram": {
+      "enabled": true,
+      "levels": ["critical", "warning"],
+      "description": "Telegram通知配置"
+    },
+    "email": {
+      "enabled": false,
+      "smtp_server": "smtp.gmail.com",
+      "smtp_port": 587,
+      "from_email": "",
+      "to_emails": [],
+      "levels": ["critical"],
+      "description": "邮件通知配置"
+    },
+    "webhook": {
+      "enabled": false,
+      "url": "",
+      "timeout": 5,
+      "levels": ["critical", "warning"],
+      "description": "Webhook通知配置"
+    },
+    "discord": {
+      "enabled": false,
+      "webhook_url": "",
+      "levels": ["critical", "warning"],
+      "description": "Discord通知配置"
+    }
+  },
+  "health_checks": {
+    "api_server": {
+      "enabled": true,
+      "url": "http://localhost:5000/api/health",
+      "timeout": 5,
+      "check_interval": 60,
+      "description": "API服务器健康检查"
+    },
+    "mt5_bridge": {
+      "enabled": true,
+      "check_interval": 60,
+      "description": "MT5桥接服务健康检查"
+    },
+    "database": {
+      "enabled": true,
+      "check_interval": 300,
+      "description": "数据库健康检查"
+    },
+    "component_processes": {
+      "enabled": true,
+      "check_interval": 30,
+      "description": "组件进程健康检查"
+    }
+  },
+  "alerts": {
+    "cooldown_seconds": 300,
+    "max_active_alerts": 50,
+    "auto_resolve_after_seconds": 3600,
+    "description": "告警行为配置"
+  },
+  "metrics": {
+    "collect_network_stats": true,
+    "collect_process_stats": true,
+    "collect_trading_stats": true,
+    "description": "指标收集配置"
+  }
+}

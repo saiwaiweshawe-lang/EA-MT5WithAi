@@ -1,0 +1,28 @@
+{
+  "server_id": "server-1",
+  "role": "primary",
+  "peer_server": {
+    "url": "http://backup-server:5000",
+    "auth_token": "your-secure-token-here"
+  },
+  "heartbeat_interval": 5,
+  "heartbeat_timeout": 15,
+  "failover_threshold": 3,
+  "sync_interval": 10,
+  "sync_batch_size": 100,
+  "data_replication": {
+    "enabled": true,
+    "sync_types": ["state", "config", "data"],
+    "exclude_patterns": ["*.tmp", "*.log"]
+  },
+  "notifications": {
+    "failover": {
+      "enabled": true,
+      "channels": ["email", "webhook"]
+    },
+    "failback": {
+      "enabled": true,
+      "channels": ["email"]
+    }
+  }
+}

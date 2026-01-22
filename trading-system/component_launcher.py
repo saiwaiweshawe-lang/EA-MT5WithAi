@@ -76,6 +76,7 @@ class ComponentLauncher:
         }
 
         self.processes = {}
+        self.process_info_file = self.base_dir / "logs" / "component_processes.json"
 
     def get_components_to_start(self) -> List[str]:
         """获取需要启动的组件列表"""
@@ -157,11 +158,17 @@ class ComponentLauncher:
         logger.info("=" * 50)
         logger.info(f"启动完成: {success_count}/{len(components)} 个组件成功启动")
 
+        # 保存进程信息
+        self._save_process_info()
+
     def stop_all_components(self):
         """停止所有组件"""
+        import psutil
+
         logger.info("停止所有组件...")
 
-        for component, process in self.processes.items():
+        # 先尝试停止内存中的进程
+        for component, process in list(self.processes.items()):
             try:
                 display_name = self.component_names.get(component, component)
                 logger.info(f"停止 {display_name}...")
@@ -174,7 +181,86 @@ class ComponentLauncher:
                 logger.error(f"停止 {display_name} 失败: {e}")
 
         self.processes.clear()
+
+        # 再停止文件中记录的进程
+        process_info = self._load_process_info()
+        for component, info in process_info.items():
+            try:
+                pid = info['pid']
+                display_name = info['display_name']
+
+                if psutil.pid_exists(pid):
+                    logger.info(f"停止 {display_name} (PID: {pid})...")
+                    proc = psutil.Process(pid)
+                    proc.terminate()
+
+                    try:
+                        proc.wait(timeout=5)
+                    except psutil.TimeoutExpired:
+                        logger.warning(f"强制终止 {display_name}...")
+                        proc.kill()
+            except Exception as e:
+                logger.error(f"停止 {display_name} 失败: {e}")
+
         logger.info("所有组件已停止")
+
+        # 清除进程信息
+        self._clear_process_info()
+
+    def _save_process_info(self):
+        """保存进程信息到文件"""
+        import json
+
+        process_info = {}
+        for component, process in self.processes.items():
+            process_info[component] = {
+                "pid": process.pid,
+                "command": self.component_commands[component],
+                "display_name": self.component_names.get(component, component),
+                "started_at": time.time()
+            }
+
+        self.process_info_file.parent.mkdir(parents=True, exist_ok=True)
+        with open(self.process_info_file, 'w', encoding='utf-8') as f:
+            json.dump(process_info, f, indent=2, ensure_ascii=False)
+
+    def _load_process_info(self) -> Dict:
+        """加载进程信息"""
+        import json
+
+        if not self.process_info_file.exists():
+            return {}
+
+        try:
+            with open(self.process_info_file, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception as e:
+            logger.error(f"加载进程信息失败: {e}")
+            return {}
+
+    def _clear_process_info(self):
+        """清除进程信息文件"""
+        if self.process_info_file.exists():
+            self.process_info_file.unlink()
+
+    def get_running_components(self) -> List[str]:
+        """获取正在运行的组件列表"""
+        import psutil
+
+        running = []
+        process_info = self._load_process_info()
+
+        for component, info in process_info.items():
+            try:
+                # 检查进程是否存在
+                if psutil.pid_exists(info['pid']):
+                    proc = psutil.Process(info['pid'])
+                    if proc.is_running():
+                        running.append(component)
+            except Exception:
+                pass
+
+        return running
 
     def show_component_status(self):
         """显示组件状态"""
@@ -221,6 +307,8 @@ def main():
                        help='组件启动间隔(秒)')
     parser.add_argument('--status', '-s', action='store_true',
                        help='只显示状态,不启动')
+    parser.add_argument('--stop', action='store_true',
+                       help='停止所有运行中的组件')
 
     args = parser.parse_args()
 
@@ -228,6 +316,10 @@ def main():
 
     if args.status:
         launcher.show_component_status()
+        return
+
+    if args.stop:
+        launcher.stop_all_components()
         return
 
     try:

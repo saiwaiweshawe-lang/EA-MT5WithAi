@@ -1,0 +1,60 @@
+{
+  "rate_limits": {
+    "default": {
+      "max_requests": 100,
+      "window_seconds": 60,
+      "block_duration": 300
+    },
+    "auth": {
+      "max_requests": 10,
+      "window_seconds": 60,
+      "block_duration": 600
+    },
+    "trading": {
+      "max_requests": 50,
+      "window_seconds": 60,
+      "block_duration": 300
+    },
+    "query": {
+      "max_requests": 200,
+      "window_seconds": 60,
+      "block_duration": 300
+    },
+    "webhook": {
+      "max_requests": 20,
+      "window_seconds": 60,
+      "block_duration": 300
+    }
+  },
+  "ip_whitelist": {
+    "enabled": false,
+    "ips": [
+      "127.0.0.1",
+      "localhost"
+    ]
+  },
+  "request_validation": {
+    "require_user_agent": true,
+    "block_suspicious_user_agents": true,
+    "check_sql_injection": true,
+    "check_xss": true,
+    "max_param_length": 1000
+  },
+  "security_logging": {
+    "enabled": true,
+    "log_all_requests": false,
+    "log_security_events": true,
+    "retention_days": 30
+  },
+  "auto_blocking": {
+    "enabled": true,
+    "threshold_violations": 5,
+    "time_window_minutes": 10,
+    "block_duration_minutes": 30
+  },
+  "notification": {
+    "enabled": true,
+    "channels": ["telegram"],
+    "events": ["rate_limit_exceeded", "suspicious_activity", "blocked_ip"]
+  }
+}
