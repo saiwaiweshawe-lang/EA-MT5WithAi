@@ -1,0 +1,43 @@
+{
+  "server": {
+    "host": "0.0.0.0",
+    "port": 5000,
+    "debug": false
+  },
+  "security": {
+    "api_keys": [
+      "your-secret-api-key-change-this",
+      "another-api-key"
+    ],
+    "allowed_ips": [
+      "0.0.0.0/0"
+    ],
+    "rate_limit": {
+      "enabled": true,
+      "requests_per_minute": 60
+    }
+  },
+  "mt5": {
+    "login": 12345678,
+    "password": "your-mt5-password",
+    "server": "your-broker-server",
+    "path": ""
+  },
+  "exchange": {
+    "exchange": "binance_futures",
+    "api_key": "your-binance-api-key",
+    "api_secret": "your-binance-api-secret",
+    "passphrase": "",
+    "testnet": true
+  },
+  "database": {
+    "type": "sqlite",
+    "path": "data/trading.db"
+  },
+  "logging": {
+    "level": "INFO",
+    "file": "logs/server.log",
+    "max_size_mb": 10,
+    "backup_count": 5
+  }
+}

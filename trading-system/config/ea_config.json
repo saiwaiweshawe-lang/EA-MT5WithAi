@@ -1,0 +1,26 @@
+{
+  "mt5": {
+    "login": 12345678,
+    "password": "your-mt5-password",
+    "server": "your-broker-server",
+    "path": ""
+  },
+  "strategies": {
+    "gold": {
+      "symbol": "XAUUSD",
+      "lot_size": 0.01,
+      "timeframe": 60,
+      "stop_loss_pips": 1000,
+      "take_profit_pips": 2000,
+      "enabled": true
+    },
+    "forex": {
+      "symbol": "EURUSD",
+      "lot_size": 0.1,
+      "timeframe": 60,
+      "stop_loss_pips": 50,
+      "take_profit_pips": 100,
+      "enabled": false
+    }
+  }
+}

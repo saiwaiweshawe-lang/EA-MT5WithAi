@@ -1,0 +1,27 @@
+{
+  "telegram_bot_token": "your-telegram-bot-token-here",
+  "telegram_chat_id": "your-telegram-chat-id",
+  "authorized_users": [
+    123456789,
+    987654321
+  ],
+  "mt5_config": {
+    "login": 12345678,
+    "password": "your-mt5-password",
+    "server": "your-broker-server",
+    "path": ""
+  },
+  "exchange_config": {
+    "exchange": "binance",
+    "api_key": "your-api-key",
+    "api_secret": "your-api-secret",
+    "passphrase": "",
+    "testnet": true
+  },
+  "notifications": {
+    "enabled": true,
+    "trade_alerts": true,
+    "profit_alerts": true,
+    "loss_alerts": true
+  }
+}
