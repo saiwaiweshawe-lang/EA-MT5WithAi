@@ -13,6 +13,15 @@ else
     echo "[警告] 未检测到虚拟环境，使用系统Python"
 fi
 
+# 运行快速系统自检
+echo ""
+echo "[2] 运行快速系统自检..."
+python utilities/system_checker.py
+if [ $? -ne 0 ]; then
+    echo "[警告] 系统自检发现问题，但将继续启动"
+fi
+echo ""
+
 # 检查screen是否安装
 if ! command -v screen &> /dev/null; then
     echo "[警告] 未安装screen，建议安装: sudo apt install screen"
@@ -23,12 +32,12 @@ if ! command -v screen &> /dev/null; then
 fi
 
 # 使用screen在后台运行
-echo "[2] 在screen中启动Telegram机器人..."
+echo "[3] 在screen中启动Telegram机器人..."
 screen -dmS trading-bot bash -c "source venv/bin/activate 2>/dev/null; python bots/telegram_bot.py"
 
 sleep 2
 
-echo "[3] 在screen中启动API服务器..."
+echo "[4] 在screen中启动API服务器..."
 screen -dmS trading-api bash -c "source venv/bin/activate 2>/dev/null; python api/server.py"
 
 echo ""

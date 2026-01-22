@@ -1,6 +1,6 @@
-# MT5加密货币交易系统 (AI增强版 v2.3)
+# MT5加密货币交易系统 (AI增强版 v2.4)
 
-一个功能完整的智能交易系统,支持MetaTrader 5外汇黄金EA和币圈交易所交易,集成多个AI模型、智能持仓监控、高级移动止损、免费顶级数据源、自有交易模型培养、每日盈亏AI分析、紧急熔断保护、自动复盘、自我进化、影子训练、实盘数据获取等高级功能。
+一个功能完整的智能交易系统,支持MetaTrader 5外汇黄金EA和币圈交易所交易,集成多个AI模型、智能持仓监控、高级移动止损、免费顶级数据源、自有交易模型培养、每日盈亏AI分析、紧急熔断保护、自动复盘、自我进化、影子训练、实盘数据获取、性能监控、自动更新等高级功能。
 
 ## 系统架构
 
@@ -40,7 +40,9 @@ trading-system/
 │   └── vps_config.py       # VPS自动配置
 ├── utilities/               # 工具模块
 │   ├── cleaner.py          # 垃圾清理
-│   └── system_checker.py   # 系统自检 (NEW v2.3)
+│   ├── system_checker.py   # 系统自检 (NEW v2.3)
+│   ├── performance_monitor.py  # 性能监控 (NEW v2.4)
+│   └── logger.py           # 统一日志工具 (NEW v2.4)
 ├── config/                   # 配置文件
 │   ├── bot_config.json      # 机器人配置
 │   ├── server_config.json   # 服务器配置
@@ -209,6 +211,52 @@ trading-system/
 - 磁盘空间检查
 - 内存使用监控
 
+### 性能监控 (NEW v2.4)
+- 实时系统资源监控（CPU/内存/磁盘/网络）
+- 进程级性能追踪
+- 可配置的阈值告警
+- 自动生成性能日志（JSON格式）
+- 历史告警记录
+- 后台线程持续监控
+- 性能摘要报告
+- 支持自定义监控间隔
+
+### 统一日志系统 (NEW v2.4)
+- 彩色控制台输出（分级颜色）
+- 滚动文件处理器（自动切割）
+- 独立错误日志文件
+- JSON格式日志（便于分析）
+- 交易专用日志记录
+- 全局异常捕获
+- 异常处理装饰器
+- 安全执行函数包装
+
+### 健康检查增强 (NEW v2.4)
+- 增强的 /api/health 端点
+- 系统资源实时状态
+- 服务运行状态检测
+- 命令队列状态监控
+- 进程内存使用统计
+- 平台信息报告
+- JSON格式响应
+
+### 自动更新功能 (NEW v2.4)
+- 一键更新脚本（Linux/Windows）
+- Git自动拉取最新代码
+- 本地修改自动暂存（stash）
+- Python依赖自动更新
+- 更新后自动系统自检
+- 支持镜像源加速
+- 更新日志记录
+
+### 系统停止脚本 (NEW v2.4)
+- 统一停止脚本（Linux/Windows）
+- 智能检测systemd服务
+- screen会话优雅退出
+- 直接进程终止支持
+- 多种停止方式自动选择
+- 清晰的停止状态反馈
+
 ## 安装步骤
 
 ### 1. 环境要求
@@ -253,18 +301,53 @@ python vps/vps_config.py
 
 ### 启动AI增强交易系统
 
+**推荐方式（使用启动脚本，包含自动系统自检）**
+
+```bash
+# Linux系统
+./start_system.sh
+
+# Windows系统
+start_system.bat
+```
+
+**手动启动方式**
+
 ```bash
 # 1. 启动VPS配置（首次运行）
 python vps/vps_config.py
 
-# 2. 启动API服务器
+# 2. 运行系统自检
+python utilities/system_checker.py
+
+# 3. 启动API服务器
 python api/server.py
 
-# 3. 启动Telegram机器人
+# 4. 启动Telegram机器人
 python bots/telegram_bot.py
 
-# 4. 安装并运行MT5 EA
+# 5. 安装并运行MT5 EA
 # 将mt5-ea/GoldTradingEA.mq5复制到MT5目录
+```
+
+### 停止交易系统
+
+```bash
+# Linux系统
+./stop_system.sh
+
+# Windows系统
+stop_system.bat
+```
+
+### 更新系统
+
+```bash
+# Linux系统
+./update_system.sh
+
+# Windows系统
+update_system.bat
 ```
 
 ### Telegram命令
@@ -359,6 +442,45 @@ python bots/telegram_bot.py
 
 ## API接口
 
+### 健康检查 (NEW v2.4)
+
+```bash
+GET /api/health
+```
+
+返回增强的系统健康状态，包括：
+- 服务运行状态（MT5、交易所、EA管理器）
+- 系统资源（CPU、内存、磁盘、网络）
+- 进程信息（内存使用、线程数）
+- 命令队列状态
+
+响应示例：
+```json
+{
+  "status": "ok",
+  "timestamp": "2024-01-22T10:30:00",
+  "services": {
+    "mt5": true,
+    "exchange": true,
+    "ea_manager": true
+  },
+  "system": {
+    "platform": "Linux",
+    "cpu_percent": 25.5,
+    "memory": {
+      "total_mb": 16384,
+      "available_mb": 8192,
+      "used_percent": 50.0
+    },
+    "disk": {
+      "total_gb": 100,
+      "free_gb": 60,
+      "used_percent": 40.0
+    }
+  }
+}
+```
+
 ### 熔断状态
 
 ```bash
@@ -435,6 +557,30 @@ MIT License
 - 发送邮件
 
 ## 更新日志
+
+### v2.4.0 (性能监控与自动化版)
+- 添加实时性能监控模块
+- 统一日志系统（彩色输出、滚动文件、JSON格式）
+- 增强健康检查API端点
+- 自动更新脚本（Linux/Windows）
+- 统一停止脚本（支持多种停止方式）
+- 启动脚本集成系统自检
+- 全局异常处理器
+- 异常处理装饰器
+- 安全执行函数包装
+- 交易专用日志记录
+- 性能阈值告警
+- 历史告警记录
+
+### v2.3.0 (系统自检版)
+- 添加系统自检功能
+- 自动检测并安装Python依赖
+- 配置文件完整性检查
+- 目录结构完整性检查
+- 智能持仓监控
+- 高级移动止损引擎
+- 免费顶级数据源集成
+- 自有交易模型培养
 
 ### v2.2.0 (实盘数据版)
 - 添加实盘数据获取模块

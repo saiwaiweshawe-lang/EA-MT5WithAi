@@ -4,6 +4,8 @@
 import os
 import json
 import logging
+import psutil
+import platform
 from datetime import datetime
 from typing import Dict, Optional
 from flask import Flask, request, jsonify
@@ -89,15 +91,53 @@ def verify_ip(client_ip: str) -> bool:
 
 @app.route("/api/health", methods=["GET"])
 def health_check():
-    """健康检查"""
-    return jsonify({
-        "status": "ok",
-        "timestamp": datetime.now().isoformat(),
-        "services": {
-            "mt5": mt5_bridge is not None,
-            "exchange": exchange_trader is not None
-        }
-    })
+    """增强的健康检查"""
+    try:
+        # 获取系统资源信息
+        cpu_percent = psutil.cpu_percent(interval=1)
+        memory = psutil.virtual_memory()
+        disk = psutil.disk_usage('/')
+
+        # 获取进程信息
+        process = psutil.Process(os.getpid())
+        process_memory = process.memory_info().rss / (1024 * 1024)  # MB
+
+        return jsonify({
+            "status": "ok",
+            "timestamp": datetime.now().isoformat(),
+            "services": {
+                "mt5": mt5_bridge is not None,
+                "exchange": exchange_trader is not None,
+                "ea_manager": ea_manager is not None
+            },
+            "system": {
+                "platform": platform.system(),
+                "python_version": platform.python_version(),
+                "cpu_percent": cpu_percent,
+                "memory": {
+                    "total_mb": round(memory.total / (1024 * 1024), 2),
+                    "available_mb": round(memory.available / (1024 * 1024), 2),
+                    "used_percent": memory.percent
+                },
+                "disk": {
+                    "total_gb": round(disk.total / (1024 * 1024 * 1024), 2),
+                    "free_gb": round(disk.free / (1024 * 1024 * 1024), 2),
+                    "used_percent": disk.percent
+                },
+                "process_memory_mb": round(process_memory, 2)
+            },
+            "command_queue": {
+                "active_queues": len(pending_commands),
+                "total_pending": sum(len(q) for q in pending_commands.values())
+            }
+        })
+    except Exception as e:
+        logger.error(f"健康检查失败: {e}")
+        return jsonify({
+            "status": "error",
+            "error": str(e),
+            "timestamp": datetime.now().isoformat()
+        }), 500
 
 
 @app.route("/api/command", methods=["GET"])
