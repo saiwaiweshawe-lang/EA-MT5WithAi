@@ -46,5 +46,60 @@
     "large_profit_threshold": 200,
     "high_risk_consecutive_losses": 3,
     "daily_target_bonus_threshold": 500
+  },
+  "market_data": {
+    "capital": {
+      "total_capital": 10000,
+      "max_per_trade": 0.1,
+      "min_capital": 1000,
+      "auto_recharge": true
+    },
+    "exchanges": {
+      "binance_futures": {
+        "enabled": true,
+        "exchange": "binance_futures",
+        "api_key": "your-api-key",
+        "api_secret": "your-api-secret",
+        "testnet": true
+      },
+      "okx": {
+        "enabled": false,
+        "exchange": "okx",
+        "api_key": "your-api-key",
+        "api_secret": "your-api-secret",
+        "passphrase": ""
+      },
+      "bybit": {
+        "enabled": false,
+        "exchange": "bybit",
+        "api_key": "your-api-key",
+        "api_secret": "your-api-secret"
+      },
+      "huobi": {
+        "enabled": false,
+        "exchange": "huobi",
+        "api_key": "your-api-key",
+        "api_secret": "your-api-secret"
+      }
+    },
+    "mt5_enabled": true,
+    "onchain": {
+      "enabled": false,
+      "rpc_urls": {
+        "ethereum": "https://mainnet.infura.io/v3/YOUR-KEY",
+        "bsc": "https://bsc-dataseed.binance.org/",
+        "polygon": "https://polygon-rpc.com/",
+        "arbitrum": "https://arb1.arbitrum.io/rpc"
+      },
+      "wallet_address": "",
+      "whale_alert": {
+        "enabled": false,
+        "threshold": 1000000
+      }
+    },
+    "watched_symbols": {
+      "mt5": ["XAUUSD", "XAGUSD", "EURUSD", "GBPUSD", "USDJPY"],
+      "crypto": ["BTCUSDT", "ETHUSDT", "BNBUSDT", "SOLUSDT", "XRPUSDT"]
+    }
   }
 }

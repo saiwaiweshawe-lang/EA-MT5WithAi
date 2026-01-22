@@ -10,3 +10,5 @@ openai>=1.0.0
 anthropic>=0.18.0
 psutil>=5.9.0
 feedparser>=6.0.10
+# v2.2 新增依赖
+web3>=6.11.0
