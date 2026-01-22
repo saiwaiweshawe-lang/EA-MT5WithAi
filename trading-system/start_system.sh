@@ -22,44 +22,31 @@ if [ $? -ne 0 ]; then
 fi
 echo ""
 
-# 检查screen是否安装
-if ! command -v screen &> /dev/null; then
-    echo "[警告] 未安装screen，建议安装: sudo apt install screen"
-    echo "将在前台运行..."
-    echo ""
-    python bots/telegram_bot.py
-    exit 0
-fi
+# 检测服务器角色
+echo "[3] 检测服务器角色..."
+python -c "from utilities.server_role_manager import ServerRoleManager; m = ServerRoleManager(); print(f'服务器角色: {m.current_role}'); print(f'组件数量: {len(m.components)}')"
+echo ""
 
-# 使用screen在后台运行
-echo "[3] 在screen中启动Telegram机器人..."
-screen -dmS trading-bot bash -c "source venv/bin/activate 2>/dev/null; python bots/telegram_bot.py"
-
-sleep 2
-
-echo "[4] 在screen中启动API服务器..."
-screen -dmS trading-api bash -c "source venv/bin/activate 2>/dev/null; python api/server.py"
+# 根据服务器角色启动组件
+echo "[4] 根据服务器角色启动组件..."
+python component_launcher.py
 
 echo ""
 echo "========================================"
 echo "系统启动完成！"
 echo "========================================"
 echo ""
-echo "后台进程:"
-echo "  - trading-bot (Telegram机器人)"
-echo "  - trading-api (API服务器)"
+echo "组件已根据服务器角色启动"
 echo ""
 echo "管理命令:"
-echo "  查看进程: screen -ls"
-echo "  进入bot: screen -r trading-bot"
-echo "  进入api: screen -r trading-api"
-echo "  离开screen: Ctrl+A+D"
+echo "  查看组件状态: python component_launcher.py --status"
 echo "  停止所有: ./stop_system.sh"
 echo ""
 echo "查看日志:"
-echo "  tail -f logs/bot.log"
-echo "  tail -f logs/api.log"
+echo "  tail -f logs/bot.log (如运行在此服务器)"
+echo "  tail -f logs/api.log (如运行在此服务器)"
+echo "  tail -f logs/performance/performance_*.jsonl"
 echo ""
 echo "访问API控制台:"
-echo "  http://YOUR_VPS_IP:5000"
+echo "  http://YOUR_VPS_IP:5000 (如运行在此服务器)"
 echo ""

@@ -1,6 +1,6 @@
-# MT5加密货币交易系统 (AI增强版 v2.4)
+# MT5加密货币交易系统 (AI增强版 v2.5)
 
-一个功能完整的智能交易系统,支持MetaTrader 5外汇黄金EA和币圈交易所交易,集成多个AI模型、智能持仓监控、高级移动止损、免费顶级数据源、自有交易模型培养、每日盈亏AI分析、紧急熔断保护、自动复盘、自我进化、影子训练、实盘数据获取、性能监控、自动更新等高级功能。
+一个功能完整的智能交易系统,支持MetaTrader 5外汇黄金EA和币圈交易所交易,集成多个AI模型、智能持仓监控、高级移动止损、免费顶级数据源、自有交易模型培养、每日盈亏AI分析、紧急熔断保护、自动复盘、自我进化、影子训练、实盘数据获取、性能监控、自动更新、**CPU智能限制**、**双服务器部署架构**等高级功能。
 
 ## 系统架构
 
@@ -42,18 +42,62 @@ trading-system/
 │   ├── cleaner.py          # 垃圾清理
 │   ├── system_checker.py   # 系统自检 (NEW v2.3)
 │   ├── performance_monitor.py  # 性能监控 (NEW v2.4)
-│   └── logger.py           # 统一日志工具 (NEW v2.4)
+│   ├── logger.py           # 统一日志工具 (NEW v2.4)
+│   ├── cpu_limiter.py      # CPU智能限制器 (NEW v2.5)
+│   ├── server_role_manager.py  # 服务器角色管理 (NEW v2.5)
+│   └── cpu_integration_example.py  # CPU限制集成示例 (NEW v2.5)
 ├── config/                   # 配置文件
 │   ├── bot_config.json      # 机器人配置
 │   ├── server_config.json   # 服务器配置
 │   ├── ea_config.json       # EA配置
 │   ├── vps_config.json     # VPS配置
 │   ├── ai_config.json      # AI配置
-│   └── position_management_config.json  # 持仓管理配置 (NEW v2.3)
+│   ├── position_management_config.json  # 持仓管理配置 (NEW v2.3)
+│   ├── cpu_limiter_config.json  # CPU限制配置 (NEW v2.5)
+│   ├── deployment_config.json   # 双服务器部署配置 (NEW v2.5)
+│   └── server_local.json   # 本地服务器角色配置 (NEW v2.5)
+├── component_launcher.py    # 组件启动器 (NEW v2.5)
 └── requirements.txt          # Python依赖
 ```
 
 ## 功能特性
+
+### CPU智能限制 (NEW v2.5)
+- 实时CPU使用率监控
+- 时间窗口限制机制(防止长时间高CPU)
+- 自动节流操作(减少AI请求、增加睡眠时间)
+- 暂停非关键任务
+- 可配置阈值和冷却时间
+- 集成到所有CPU密集型模块
+- 持久化状态管理
+- 告警通知功能
+
+### 双服务器部署架构 (NEW v2.5)
+- Server1(主服务器): 交易、用户交互、实时服务
+- Server2(计算服务器): AI计算、数据分析、模型训练
+- 智能组件分配(基于CPU密集度和优先级)
+- 服务器间HTTP API通信
+- 自动角色检测
+- CPU密集任务时间调度(夜间运行)
+- 资源限制配置
+- 组件启动器(按角色启动组件)
+- 完整部署文档
+
+### 性能监控 (NEW v2.4)
+- 实时系统资源监控(CPU、内存、磁盘、网络)
+- 进程级性能追踪
+- 可配置阈值告警
+- 性能指标持久化(JSONL格式)
+- 历史告警记录
+- 线程化持续监控
+
+### 统一日志系统 (NEW v2.4)
+- 颜色化日志输出
+- 多级别日志支持
+- 自动日志轮转
+- 统一日志格式
+- 性能追踪装饰器
+- 日志归档功能
 
 ### 系统自检 (NEW v2.3)
 - 自动检测Python依赖包
@@ -301,7 +345,9 @@ python vps/vps_config.py
 
 ### 启动AI增强交易系统
 
-**推荐方式（使用启动脚本，包含自动系统自检）**
+**单服务器模式(默认)**
+
+推荐方式（使用启动脚本，包含自动系统自检）
 
 ```bash
 # Linux系统
@@ -309,6 +355,33 @@ python vps/vps_config.py
 
 # Windows系统
 start_system.bat
+```
+
+**双服务器模式 (NEW v2.5)**
+
+详细说明见 [双服务器部署指南](docs/DUAL_SERVER_DEPLOYMENT.md)
+
+快速部署:
+
+```bash
+# Server1 (主服务器)
+git clone <your-repo> trading-system
+cd trading-system
+python utilities/server_role_manager.py server1
+# 编辑 config/deployment_config.json 配置IP和API密钥
+./start_system.sh
+
+# Server2 (计算服务器)
+git clone <your-repo> trading-system
+cd trading-system
+python utilities/server_role_manager.py server2
+# 编辑 config/deployment_config.json 配置IP和API密钥
+./start_system.sh
+```
+
+查看组件状态:
+```bash
+python component_launcher.py --status
 ```
 
 **手动启动方式**
@@ -557,6 +630,27 @@ MIT License
 - 发送邮件
 
 ## 更新日志
+
+### v2.5.0 (双服务器部署与CPU智能限制版)
+- 添加CPU智能限制功能
+  - 实时CPU监控与时间窗口限制
+  - 自动节流机制(AI请求、睡眠时间)
+  - 可配置阈值和冷却时间
+  - 持久化状态管理
+- 双服务器部署架构
+  - Server1: 主服务器(交易、用户交互)
+  - Server2: 计算服务器(AI、训练、分析)
+  - 智能组件分配系统
+  - 服务器角色自动检测
+  - 服务器间HTTP API通信
+  - CPU密集任务时间调度
+- 组件启动器
+  - 基于服务器角色启动组件
+  - 按优先级排序启动
+  - 组件状态查看
+- CPU限制集成示例
+- 完整双服务器部署文档
+- 更新启动/停止脚本支持双服务器
 
 ### v2.4.0 (性能监控与自动化版)
 - 添加实时性能监控模块

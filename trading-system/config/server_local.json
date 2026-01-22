@@ -1,0 +1,10 @@
+{
+  "server_role": "server1",
+  "description": "本地服务器角色配置文件",
+  "notes": [
+    "server_role可以是: server1 (主服务器) 或 server2 (计算服务器)",
+    "也可以使用: primary (等同于server1) 或 compute (等同于server2)",
+    "此文件由系统自动生成和管理"
+  ],
+  "updated_at": null
+}

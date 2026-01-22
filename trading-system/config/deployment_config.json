@@ -1,0 +1,195 @@
+{
+  "deployment_mode": "dual_server",
+  "server_roles": {
+    "server1": {
+      "name": "主服务器",
+      "role": "primary",
+      "hostname": "server1.example.com",
+      "ip": "YOUR_SERVER1_IP",
+      "components": [
+        "telegram_bot",
+        "api_server",
+        "mt5_bridge",
+        "position_monitor",
+        "circuit_breaker",
+        "performance_monitor"
+      ],
+      "description": "运行核心交易组件和用户交互服务"
+    },
+    "server2": {
+      "name": "计算服务器",
+      "role": "compute",
+      "hostname": "server2.example.com",
+      "ip": "YOUR_SERVER2_IP",
+      "components": [
+        "ai_ensemble",
+        "news_aggregator",
+        "dynamic_indicators",
+        "shadow_trading",
+        "self_evolution",
+        "proprietary_model_trainer",
+        "data_provider"
+      ],
+      "description": "运行AI计算、数据分析和训练任务"
+    }
+  },
+  "component_distribution": {
+    "telegram_bot": {
+      "server": "server1",
+      "priority": "high",
+      "cpu_intensive": false,
+      "description": "Telegram机器人，用户交互"
+    },
+    "api_server": {
+      "server": "server1",
+      "priority": "high",
+      "cpu_intensive": false,
+      "description": "API服务器，远程控制"
+    },
+    "mt5_bridge": {
+      "server": "server1",
+      "priority": "high",
+      "cpu_intensive": false,
+      "description": "MT5桥接服务"
+    },
+    "exchange_trader": {
+      "server": "server1",
+      "priority": "high",
+      "cpu_intensive": false,
+      "description": "交易所交易服务（可选部署在server1或server2）"
+    },
+    "position_monitor": {
+      "server": "server1",
+      "priority": "high",
+      "cpu_intensive": false,
+      "description": "持仓监控"
+    },
+    "circuit_breaker": {
+      "server": "server1",
+      "priority": "high",
+      "cpu_intensive": false,
+      "description": "熔断保护"
+    },
+    "performance_monitor": {
+      "server": "server1",
+      "priority": "medium",
+      "cpu_intensive": false,
+      "description": "性能监控"
+    },
+    "ai_ensemble": {
+      "server": "server2",
+      "priority": "medium",
+      "cpu_intensive": true,
+      "description": "AI模型集成（高CPU）"
+    },
+    "news_aggregator": {
+      "server": "server2",
+      "priority": "low",
+      "cpu_intensive": false,
+      "description": "新闻聚合"
+    },
+    "dynamic_indicators": {
+      "server": "server2",
+      "priority": "medium",
+      "cpu_intensive": true,
+      "description": "动态指标计算（中等CPU）"
+    },
+    "shadow_trading": {
+      "server": "server2",
+      "priority": "low",
+      "cpu_intensive": true,
+      "description": "影子交易训练（高CPU）"
+    },
+    "self_evolution": {
+      "server": "server2",
+      "priority": "low",
+      "cpu_intensive": true,
+      "description": "自我进化训练（高CPU）"
+    },
+    "proprietary_model_trainer": {
+      "server": "server2",
+      "priority": "low",
+      "cpu_intensive": true,
+      "description": "自有模型训练（极高CPU）"
+    },
+    "data_provider": {
+      "server": "server2",
+      "priority": "medium",
+      "cpu_intensive": false,
+      "description": "实盘数据提供"
+    },
+    "review_system": {
+      "server": "server2",
+      "priority": "low",
+      "cpu_intensive": false,
+      "description": "复盘系统"
+    },
+    "daily_analyzer": {
+      "server": "server2",
+      "priority": "low",
+      "cpu_intensive": false,
+      "description": "每日分析"
+    }
+  },
+  "communication": {
+    "method": "http_api",
+    "server1_to_server2": {
+      "base_url": "http://YOUR_SERVER2_IP:5001",
+      "api_key": "your-secret-key-here",
+      "timeout_seconds": 30,
+      "retry_times": 3
+    },
+    "server2_to_server1": {
+      "base_url": "http://YOUR_SERVER1_IP:5000",
+      "api_key": "your-secret-key-here",
+      "timeout_seconds": 10,
+      "retry_times": 3
+    }
+  },
+  "resource_limits": {
+    "server1": {
+      "max_cpu_percent": 85,
+      "max_memory_percent": 80,
+      "priority_components": [
+        "telegram_bot",
+        "api_server",
+        "mt5_bridge"
+      ]
+    },
+    "server2": {
+      "max_cpu_percent": 85,
+      "max_memory_percent": 85,
+      "cpu_intensive_schedule": {
+        "ai_training": {
+          "enabled": true,
+          "allowed_hours": [0, 1, 2, 3, 4, 5, 22, 23],
+          "max_concurrent_tasks": 2
+        },
+        "model_evolution": {
+          "enabled": true,
+          "allowed_hours": [2, 3, 4, 5],
+          "max_concurrent_tasks": 1
+        }
+      }
+    }
+  },
+  "deployment_guide": {
+    "server1_setup": [
+      "1. 克隆代码到server1",
+      "2. 配置 config/deployment_config.json，设置当前服务器为 server1",
+      "3. 运行: ./start_system.sh --role=primary",
+      "4. 验证服务: curl http://localhost:5000/api/health"
+    ],
+    "server2_setup": [
+      "1. 克隆代码到server2",
+      "2. 配置 config/deployment_config.json，设置当前服务器为 server2",
+      "3. 运行: ./start_system.sh --role=compute",
+      "4. 验证服务: curl http://localhost:5001/api/health"
+    ],
+    "network_requirements": [
+      "server1和server2之间需要能够相互访问",
+      "开放端口: server1:5000, server2:5001",
+      "建议使用内网IP通信以降低延迟"
+    ]
+  }
+}

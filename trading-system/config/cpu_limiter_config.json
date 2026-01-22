@@ -1,0 +1,28 @@
+{
+  "max_cpu_percent": 85,
+  "warning_cpu_percent": 80,
+  "check_interval_seconds": 30,
+  "high_cpu_window_minutes": 30,
+  "cooldown_duration_seconds": 300,
+  "auto_throttle": true,
+  "notify_on_throttle": true,
+  "throttle_actions": {
+    "reduce_ai_requests": true,
+    "increase_sleep_time": true,
+    "pause_non_critical": true
+  },
+  "description": {
+    "max_cpu_percent": "最大允许CPU使用率（超过此值持续一定时间将触发限制）",
+    "warning_cpu_percent": "警告CPU使用率阈值",
+    "check_interval_seconds": "CPU检查间隔（秒）",
+    "high_cpu_window_minutes": "高CPU持续时间窗口（分钟），超过此时间将触发限制",
+    "cooldown_duration_seconds": "限制解除冷却时间（秒），CPU恢复正常后需等待此时间才解除限制",
+    "auto_throttle": "是否自动启动CPU限制",
+    "notify_on_throttle": "限制触发时是否发送通知",
+    "throttle_actions": {
+      "reduce_ai_requests": "减少AI模型调用频率",
+      "increase_sleep_time": "增加操作间隔时间（翻倍）",
+      "pause_non_critical": "暂停非关键任务"
+    }
+  }
+}
