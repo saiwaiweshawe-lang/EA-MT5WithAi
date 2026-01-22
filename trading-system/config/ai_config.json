@@ -1,0 +1,206 @@
+{
+  "ai": {
+    "models": {
+      "openai": {
+        "type": "openai",
+        "enabled": false,
+        "api_key": "",
+        "model": "gpt-4-turbo-preview",
+        "max_retries": 3,
+        "timeout": 30
+      },
+      "anthropic": {
+        "type": "anthropic",
+        "enabled": false,
+        "api_key": "",
+        "model": "claude-3-opus-20240229",
+        "max_retries": 3,
+        "timeout": 30
+      },
+      "deepseek": {
+        "type": "deepseek",
+        "enabled": true,
+        "api_key": "your-deepseek-api-key",
+        "base_url": "https://api.deepseek.com/v1",
+        "model": "deepseek-chat",
+        "max_retries": 3,
+        "timeout": 30
+      },
+      "local": {
+        "type": "local",
+        "enabled": true,
+        "model_path": "",
+        "use_transformers": false
+      }
+    },
+    "voting_method": "weighted",
+    "model_weights": {
+      "OpenAIModel": 1.0,
+      "AnthropicModel": 1.0,
+      "DeepSeekModel": 0.8,
+      "LocalModel": 0.5
+    },
+    "confidence_threshold": 0.6
+  },
+  "news": {
+    "sentiment": {
+      "positive_words": [
+        "bull", "bullish", "rally", "surge", "gain", "rise", "up",
+        "breakthrough", "positive", "growth", "strong", "upgrade",
+        "涨", "上涨", "突破", "利好", "增长", "强势"
+      ],
+      "negative_words": [
+        "bear", "bearish", "crash", "plunge", "drop", "fall", "down",
+        "crisis", "negative", "decline", "weak", "downgrade",
+        "跌", "下跌", "暴跌", "危机", "利空", "衰退", "弱势"
+      ]
+    },
+    "sources": {
+      "cryptocompare": {
+        "enabled": false,
+        "api_key": "",
+        "rate_limit": 30
+      },
+      "newsapi": {
+        "enabled": false,
+        "api_key": "",
+        "rate_limit": 100
+      },
+      "rss": {
+        "enabled": true,
+        "feeds": [
+          "https://feeds.feedburner.com/coindesk",
+          "https://cointelegraph.com/rss",
+          "https://finance.yahoo.com/rss/2.0/headline",
+          "https://www.forexfactory.com/news.php?do=rss",
+          "https://www.investing.com/rss/news.rss"
+        ],
+        "rate_limit": 60
+      },
+      "finnhub": {
+        "enabled": false,
+        "api_key": "",
+        "rate_limit": 60
+      },
+      "twitter": {
+        "enabled": false,
+        "nitter_instances": [
+          "https://nitter.net",
+          "https://nitter.poast.org"
+        ],
+        "accounts": [
+          "CryptoCom",
+          "binance",
+          "coindesk"
+        ],
+        "rate_limit": 30
+      }
+    }
+  },
+  "dynamic_indicators": {
+    "auto_optimize": true,
+    "indicators": {
+      "ma": {
+        "enabled": true,
+        "auto_tune": true,
+        "ma_type": "EMA",
+        "short_period": 20,
+        "long_period": 50,
+        "min_period": 5,
+        "max_period": 100
+      },
+      "rsi": {
+        "enabled": true,
+        "auto_tune": true,
+        "period": 14,
+        "overbought": 70,
+        "oversold": 30
+      },
+      "bollinger": {
+        "enabled": true,
+        "auto_tune": true,
+        "period": 20,
+        "std_multiplier": 2.0
+      },
+      "macd": {
+        "enabled": true,
+        "auto_tune": true,
+        "fast_period": 12,
+        "slow_period": 26,
+        "signal_period": 9
+      },
+      "atr": {
+        "enabled": true,
+        "auto_tune": true,
+        "period": 14,
+        "multiplier": 1.5
+      },
+      "volume": {
+        "enabled": true,
+        "auto_tune": false,
+        "period": 20
+      }
+    }
+  },
+  "evolution": {
+    "enabled": true,
+    "models_dir": "training/models",
+    "history_dir": "training/history",
+    "generation_size": 20,
+    "max_generations": 100,
+    "elitism_rate": 0.1,
+    "mutation_rate": 0.15,
+    "crossover_rate": 0.7,
+    "convergence_threshold": 0.001
+  },
+  "online_learning": {
+    "enabled": true,
+    "models_dir": "training/models",
+    "learning_rate": 0.01,
+    "window_size": 100,
+    "min_trades_for_update": 10
+  },
+  "shadow_trading": {
+    "enabled": true,
+    "simulation_mode": "paper",
+    "db_path": "shadow_trading/shadow.db",
+    "initial_balance": 10000,
+    "spread": 0.0002,
+    "commission": 0.0005
+  },
+  "backtesting": {
+    "enabled": true,
+    "initial_balance": 10000,
+    "spread": 0.0002,
+    "commission": 0.0005
+  },
+  "vps": {
+    "auto_detect": true,
+    "auto_adjust": true,
+    "optimize_on_start": true
+  },
+  "cleaner": {
+    "enabled": true,
+    "auto_clean": true,
+    "clean_interval_hours": 24,
+    "log_retention_days": 7,
+    "cache_retention_days": 3,
+    "temp_retention_hours": 1,
+    "db_backup_retention_days": 30,
+    "clean_dirs": [
+      "logs",
+      "cache",
+      "temp",
+      "shadow_trading",
+      "training/history"
+    ]
+  },
+  "review_system": {
+    "enabled": true,
+    "log_dir": "logs/trades",
+    "db_path": "logs/trading.db",
+    "auto_report": true,
+    "report_schedule": "daily",
+    "ai_analysis": true
+  }
+}

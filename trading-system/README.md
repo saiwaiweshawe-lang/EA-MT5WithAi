@@ -1,31 +1,58 @@
-# MT5加密货币交易系统
+# MT5加密货币交易系统 (AI增强版)
 
-一个功能完整的交易系统，支持MetaTrader 5外汇黄金EA和币圈交易所交易，可通过Telegram机器人和域名远程控制。
+一个功能完整的智能交易系统，支持MetaTrader 5外汇黄金EA和币圈交易所交易，集成多个AI模型、自动复盘、自我进化、影子训练等高级功能。
 
 ## 系统架构
 
 ```
 trading-system/
-├── mt5-ea/              # MT5 EA文件
+├── mt5-ea/                  # MT5 EA文件
 │   └── GoldTradingEA.mq5
-├── bots/                # 交易机器人模块
-│   ├── telegram_bot.py  # Telegram机器人
-│   ├── mt5_bridge.py    # MT5桥接
-│   └── exchange_trader.py  # 交易所交易
-├── api/                 # 远程控制API
-│   └── server.py        # Flask API服务器
-├── config/              # 配置文件
-│   ├── bot_config.json
-│   ├── server_config.json
-│   └── ea_config.json
-└── requirements.txt     # Python依赖
+├── bots/                     # 交易机器人模块
+│   ├── telegram_bot.py        # Telegram机器人
+│   ├── mt5_bridge.py        # MT5桥接
+│   └── exchange_trader.py    # 交易所交易
+├── api/                      # 远程控制API
+│   └── server.py             # Flask API服务器
+├── ai_models/                # AI模型集成
+│   └── ai_ensemble.py       # AI集成器
+├── news/                     # 新闻聚合
+│   └── news_aggregator.py   # 新闻聚合器
+├── dynamic_indicators/        # 动态指标系统
+│   └── dynamic_system.py     # 动态指标
+├── training/                 # 训练与进化
+│   └── self_evolution.py    # 自我进化
+├── shadow_trading/           # 影子训练场
+│   └── shadow_engine.py     # 影子交易引擎
+├── logs/                     # 日志系统
+│   └── review_system.py     # 复盘系统
+├── vps/                      # VPS配置
+│   └── vps_config.py       # VPS自动配置
+├── utilitities/              # 工具模块
+│   └── cleaner.py          # 垃圾清理
+├── config/                   # 配置文件
+│   ├── bot_config.json      # 机器人配置
+│   ├── server_config.json   # 服务器配置
+│   ├── ea_config.json       # EA配置
+│   ├── vps_config.json     # VPS配置
+│   └── ai_config.json      # AI配置
+└── requirements.txt          # Python依赖
 ```
 
 ## 功能特性
 
+### AI集成
+- 支持OpenAI GPT-4
+- 支持Anthropic Claude
+- 支持DeepSeek（免费）
+- 支持本地模型
+- 多模型投票决策
+- 情绪分析
+
 ### MT5外汇黄金EA
 - 支持黄金(XAUUSD)、外汇交易
-- 自动交易策略（RSI + 移动平均线）
+- 动态指标系统
+- AI辅助决策
 - 移动止损功能
 - 远程命令执行
 - 实时状态上报
@@ -35,6 +62,7 @@ trading-system/
 - 现货和合约交易
 - 多交易对支持
 - 自动策略执行
+- AI决策集成
 
 ### Telegram机器人
 - 实时交易通知
@@ -42,6 +70,7 @@ trading-system/
 - 查看账户状态
 - 查看待持仓位
 - 策略控制
+- AI分析报告
 
 ### 域名远程控制
 - RESTful API接口
@@ -49,12 +78,70 @@ trading-system/
 - 命令队列机制
 - 状态同步
 
+### 动态指标系统
+- 动态移动平均线（SMA/EMA/VWMA/HMA/TMA）
+- 动态RSI（自动调整超买超卖）
+- 动态布林带（根据波动率调整）
+- 动态MACD（根据趋势强度调整）
+- 动态ATR（波动率分类）
+- 动态成交量指标
+- 市场状态识别
+- 综合信号生成
+
+### 新闻聚合
+- CryptoCompare新闻API
+- NewsAPI.org
+- RSS新闻源（免费）
+- Finnhub API
+- Twitter/X消息
+- 情绪分析
+- 相关性评分
+
+### 影子训练场
+- 虚拟交易环境
+- 策略回测
+- 不影响实盘
+- 性能评估
+- 参数优化
+
+### 自我进化
+- 遗传算法优化参数
+- 在线学习
+- 性能反馈调整
+- 多代进化
+- 最优参数保存
+
+### 复盘日志系统
+- SQLite数据库存储
+- 每日/每周复盘
+- AI分析报告
+- 交易统计
+- CSV导出
+
+### VPS自动配置
+- 硬件自动检测
+- 性能配置文件
+- 自动调整参数
+- 系统优化
+- 资源分配建议
+- 性能监控报警
+
+### 垃圾清理
+- 自动清理日志
+- 缓存清理
+- 临时文件清理
+- 数据库优化
+- Python缓存清理
+- 磁盘空间检查
+- 内存使用监控
+
 ## 安装步骤
 
 ### 1. 环境要求
 - Python 3.8+
 - MetaTrader 5
 - Telegram Bot Token
+- 可选：OpenAI/Anthropic API Key
 
 ### 2. 安装Python依赖
 
@@ -64,9 +151,12 @@ pip install -r requirements.txt
 
 ### 3. 配置文件
 
-编辑配置文件：
+编辑以下配置文件：
 
 ```bash
+# AI配置
+config/ai_config.json
+
 # Telegram机器人配置
 config/bot_config.json
 
@@ -77,196 +167,176 @@ config/server_config.json
 config/ea_config.json
 ```
 
-### 4. 获取Telegram Bot Token
+### 4. VPS自动配置
 
-1. 与 @BotFather 对话
-2. 创建新机器人
-3. 获取API Token
-4. 获取你的Chat ID（与 @userinfobot 对话）
+```bash
+python vps/vps_config.py
+```
+
+系统将自动检测VPS配置并优化设置。
 
 ## 使用说明
 
-### 启动Telegram机器人
+### 启动AI增强交易系统
 
 ```bash
-python bots/telegram_bot.py
-```
+# 1. 启动VPS配置（首次运行）
+python vps/vps_config.py
 
-### 启动API服务器
-
-```bash
+# 2. 启动API服务器
 python api/server.py
+
+# 3. 启动Telegram机器人
+python bots/telegram_bot.py
+
+# 4. 安装并运行MT5 EA
+# 将mt5-ea/GoldTradingEA.mq5复制到MT5目录
 ```
 
-### 安装MT5 EA
+### 自我进化训练
 
-1. 将 `mt5-ea/GoldTradingEA.mq5` 复制到MT5的MQL5/Experts目录
-2. 在MT5中编译EA
-3. 将EA拖到图表上
-4. 设置参数：
-   - `InpServerURL`: 你的API服务器地址
-   - `InpMagicNumber`: EA幻数
-   - `InpLotSize`: 交易手数
-
-### Telegram命令
-
-| 命令 | 说明 |
-|------|------|
-| /start | 启动机器人 |
-| /help | 显示帮助 |
-| /status | 查看系统状态 |
-| /balance | 查看余额 |
-| /positions | 查看待持仓位 |
-| /trade | 开始交易 |
-| /close | 平仓 |
-| /settings | 查看设置 |
-
-### API接口
-
-#### 健康检查
-```
-GET /api/health
+```bash
+python training/self_evolution.py
 ```
 
-#### MT5交易
-```
-POST /api/mt5/trade
-Content-Type: application/json
+### 影子训练场测试
 
+```bash
+python shadow_trading/shadow_engine.py
+```
+
+### 生成复盘报告
+
+```bash
+python logs/review_system.py
+```
+
+### 清理系统垃圾
+
+```bash
+python utilitities/cleaner.py
+```
+
+## 配置说明
+
+### AI配置 (config/ai_config.json)
+
+```json
 {
-  "api_key": "your-secret-key",
+  "ai": {
+    "models": {
+      "openai": {
+        "enabled": false,
+        "api_key": ""
+      },
+      "deepseek": {
+        "enabled": true,
+        "api_key": "your-api-key"
+      }
+    },
+    "voting_method": "weighted"
+  }
+}
+```
+
+### 新闻源配置
+
+支持的免费新闻源：
+- RSS源（完全免费）
+- CryptoCompare（部分免费）
+- NewsAPI.org（需要API Key）
+- Finnhub（需要API Key）
+
+### 动态指标配置
+
+所有指标支持：
+- 自动参数调整
+- 市场状态识别
+- 自适应周期
+
+### VPS配置文件
+
+系统自动识别以下配置：
+
+| 配置 | CPU | 内存 | 磁盘 | MT5实例 | AI模型 |
+|------|------|------|--------|----------|---------|
+| high_performance | 8核 | 16G | 100G | 4 | 3 |
+| medium_performance | 8核 | 8G | 20G | 2 | 2 |
+
+## API接口
+
+### AI分析
+
+```bash
+POST /api/ai/analyze
+{
+  "api_key": "your-key",
+  "market_data": {...},
+  "indicators": {...},
+  "news": [...]
+}
+```
+
+### 获取AI决策
+
+```bash
+POST /api/ai/decision
+{
+  "api_key": "your-key",
+  "symbol": "XAUUSD",
+  "timeframe": "H1"
+}
+```
+
+### 影子交易
+
+```bash
+POST /api/shadow/trade
+{
+  "api_key": "your-key",
   "symbol": "XAUUSD",
   "action": "buy",
-  "lot_size": 0.01,
-  "price": null
+  "price": 2025.50,
+  "parameters": {...}
 }
 ```
 
-#### 获取MT5持仓
-```
-GET /api/mt5/positions?api_key=your-key&symbol=XAUUSD
-```
+### 获取复盘报告
 
-#### 平MT5持仓
+```bash
+GET /api/reports/daily?date=2024-01-22
+GET /api/reports/weekly?start=2024-01-15
 ```
-POST /api/mt5/close
-Content-Type: application/json
-
-{
-  "api_key": "your-secret-key",
-  "symbol": "XAUUSD"
-}
-```
-
-#### 发送命令到EA
-```
-POST /api/send-command
-Content-Type: application/json
-
-{
-  "api_key": "your-secret-key",
-  "symbol": "XAUUSD",
-  "command": "BUY:0.01"
-}
-```
-
-命令格式：
-- `BUY:0.01` - 买入0.01手
-- `SELL:0.01` - 卖出0.01手
-- `CLOSE_ALL` - 平所有仓
-- `CLOSE_PROFIT` - 平盈利仓
-- `SET_LOT:0.02` - 设置手数
-- `ENABLE_AUTO` - 启用自动交易
-- `DISABLE_AUTO` - 禁用自动交易
-
-#### 交易所交易
-```
-POST /api/exchange/trade
-Content-Type: application/json
-
-{
-  "api_key": "your-secret-key",
-  "symbol": "BTCUSDT",
-  "side": "buy",
-  "amount": 0.001,
-  "price": null
-}
-```
-
-#### 获取交易所持仓
-```
-GET /api/exchange/positions?api_key=your-key
-```
-
-#### 系统概览
-```
-GET /api/overview?api_key=your-key
-```
-
-## 支持的交易所
-
-| 交易所 | 现货 | 合约 | 测试网 |
-|--------|------|------|--------|
-| Binance | 支持 | 支持 | 支持 |
-| OKX | 支持 | 支持 | 部分支持 |
-| Bybit | 支持 | 支持 | 支持 |
-| Huobi | 支持 | 支持 | 支持 |
 
 ## 交易策略
 
-### MT5黄金EA策略
+### AI增强策略
 
-- **指标**: RSI(14) + MA(10/20)
-- **买入条件**: RSI < 30 AND MA10 > MA20
-- **卖出条件**: RSI > 70 AND MA10 < MA20
-- **止损**: 默认2000点
-- **止盈**: 默认4000点
-- **移动止损**: 盈利500点后启动，步长200点
+系统整合以下因素：
 
-### 币圈策略
+1. **技术面**
+   - 动态指标信号
+   - 趋势识别
+   - 波动率分析
+   - 价量关系
 
-- **指标**: MA(7/25) + RSI(14)
-- **买入条件**: MA7 > MA25 AND RSI < 70
-- **卖出条件**: MA7 < MA25 AND RSI > 30
-- **止损**: 2%
-- **止盈**: 4%
+2. **信息面**
+   - 新闻情绪
+   - 社交媒体情绪
+   - 相关性评分
+   - 影响权重
 
-## 安全建议
+3. **AI决策**
+   - 多模型投票
+   - 置信度评估
+   - 风险评估
+   - 止损止盈建议
 
-1. **API Key管理**
-   - 使用强随机字符串作为API Key
-   - 定期更换API Key
-   - 不要将API Key提交到版本控制
+### 自适应规则
 
-2. **IP白名单**
-   - 在生产环境中使用IP白名单
-   - 限制访问来源
-
-3. **测试网优先**
-   - 先在测试网测试所有功能
-   - 确认无误后再切换到实盘
-
-4. **风险管理**
-   - 设置合理的止损
-   - 控制仓位大小
-   - 不要全仓交易
-
-## 常见问题
-
-### MT5连接失败
-- 确认MT5已正确安装
-- 检查登录信息是否正确
-- 确认MT5终端已登录到账户
-
-### Telegram机器人无响应
-- 检查Bot Token是否正确
-- 检查Chat ID是否在授权列表中
-- 确认机器人已启动
-
-### 交易所API错误
-- 检查API Key权限是否正确
-- 确认API Key有交易权限
-- 检查IP白名单设置
+- 高波动市场：扩大止损止盈，降低仓位
+- 震荡市场：延长周期，减少交易频率
+- 趋势市场：缩短周期，跟随趋势
 
 ## 免责声明
 
@@ -277,8 +347,9 @@ GET /api/overview?api_key=your-key
 请确保：
 1. 充分理解市场风险
 2. 只使用您能承受损失的资金
-3. 先在模拟账户充分测试
+3. 先在影子训练场充分测试
 4. 设置合理的风险管理策略
+5. 不要将所有资金投入单一交易
 
 ## 许可证
 
@@ -292,7 +363,17 @@ MIT License
 
 ## 更新日志
 
-### v1.0.0
+### v2.0.0 (AI增强版)
+- 集成多个AI模型
+- 动态指标系统
+- 新闻聚合与情绪分析
+- 影子训练场功能
+- 自我进化训练
+- 自动复盘系统
+- VPS自动配置
+- 垃圾清理功能
+
+### v1.0.0 (基础版)
 - 初始版本发布
 - MT5 EA支持
 - 币圈交易所支持
