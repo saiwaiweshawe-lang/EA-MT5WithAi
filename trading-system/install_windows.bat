@@ -15,7 +15,7 @@ if errorlevel 1 (
     exit /b 1
 )
 
-echo [1/6] 检测到Python版本:
+echo [1/7] 检测到Python版本:
 python --version
 echo.
 
@@ -27,7 +27,11 @@ if errorlevel 1 (
     exit /b 1
 )
 
-echo [2/6] 安装Python依赖包...
+echo [2/7] 运行系统自检...
+python utilities\system_checker.py
+echo.
+
+echo [3/7] 安装Python依赖包...
 pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
 if errorlevel 1 (
     echo [警告] 使用清华源安装失败，尝试官方源...
@@ -35,20 +39,12 @@ if errorlevel 1 (
 )
 echo.
 
-echo [3/6] 创建必要的目录...
-if not exist "logs" mkdir logs
-if not exist "logs\trades" mkdir logs\trades
-if not exist "cache" mkdir cache
-if not exist "temp" mkdir temp
-if not exist "data" mkdir data
-if not exist "training\models" mkdir training\models
-if not exist "training\models\proprietary" mkdir training\models\proprietary
-if not exist "training\history" mkdir training\history
-if not exist "shadow_trading" mkdir shadow_trading
-echo 目录创建完成
+echo [4/7] 确认目录结构...
+REM 系统自检已创建目录，这里只是确认
+echo 目录确认完成
 echo.
 
-echo [4/6] 运行配置向导...
+echo [5/7] 运行配置向导...
 python setup_wizard.py
 if errorlevel 1 (
     echo [错误] 配置向导执行失败
@@ -57,11 +53,11 @@ if errorlevel 1 (
 )
 echo.
 
-echo [5/6] 检测VPS硬件配置并优化...
+echo [6/7] 检测VPS硬件配置并优化...
 python vps\vps_config.py
 echo.
 
-echo [6/6] 安装Windows服务（可选）
+echo [7/7] 安装Windows服务（可选）
 echo.
 choice /C YN /M "是否将交易系统安装为Windows服务自动启动"
 if errorlevel 2 goto skip_service

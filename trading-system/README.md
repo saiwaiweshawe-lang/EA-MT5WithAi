@@ -38,8 +38,9 @@ trading-system/
 │   └── free_premium_sources.py   # 免费顶级数据源
 ├── vps/                      # VPS配置
 │   └── vps_config.py       # VPS自动配置
-├── utilitities/              # 工具模块
-│   └── cleaner.py          # 垃圾清理
+├── utilities/               # 工具模块
+│   ├── cleaner.py          # 垃圾清理
+│   └── system_checker.py   # 系统自检 (NEW v2.3)
 ├── config/                   # 配置文件
 │   ├── bot_config.json      # 机器人配置
 │   ├── server_config.json   # 服务器配置
@@ -51,6 +52,16 @@ trading-system/
 ```
 
 ## 功能特性
+
+### 系统自检 (NEW v2.3)
+- 自动检测Python依赖包
+- 自动安装缺失的依赖
+- 配置文件完整性检查
+- 自动创建缺失的配置文件
+- 目录结构完整性检查
+- 系统工具可用性检查
+- 外部资源状态检查
+- 集成到安装脚本中
 
 ### 实盘数据获取 (NEW v2.2)
 - 自动获取交易品种列表

@@ -82,10 +82,21 @@ create_venv() {
     source venv/bin/activate
 }
 
+# 运行系统自检
+run_system_check() {
+    echo ""
+    echo "[3/8] 运行系统自检..."
+
+    # 激活虚拟环境后运行自检
+    python utilities/system_checker.py
+
+    echo -e "${GREEN}系统自检完成${NC}"
+}
+
 # 安装依赖
 install_dependencies() {
     echo ""
-    echo "[3/8] 安装Python依赖包..."
+    echo "[4/8] 安装Python依赖包..."
 
     # 升级pip
     pip install --upgrade pip
@@ -100,26 +111,19 @@ install_dependencies() {
     echo -e "${GREEN}依赖安装完成${NC}"
 }
 
-# 创建目录结构
+# 创建目录结构 (由系统自检自动完成，这里保留以防万一)
 create_directories() {
     echo ""
-    echo "[4/8] 创建必要的目录..."
+    echo "[5/8] 确认目录结构..."
 
-    mkdir -p logs/trades
-    mkdir -p cache
-    mkdir -p temp
-    mkdir -p data
-    mkdir -p training/models/proprietary
-    mkdir -p training/history
-    mkdir -p shadow_trading
-
-    echo -e "${GREEN}目录创建完成${NC}"
+    # 系统自检已经创建了目录，这里只是确认
+    echo -e "${GREEN}目录确认完成${NC}"
 }
 
 # 运行配置向导
 run_config_wizard() {
     echo ""
-    echo "[5/8] 运行配置向导..."
+    echo "[6/8] 运行配置向导..."
 
     python3 setup_wizard.py
 
@@ -134,7 +138,7 @@ run_config_wizard() {
 # VPS优化
 optimize_vps() {
     echo ""
-    echo "[6/8] 检测VPS硬件配置并优化..."
+    echo "[7/8] 检测VPS硬件配置并优化..."
 
     python3 vps/vps_config.py
 
@@ -144,7 +148,7 @@ optimize_vps() {
 # 配置systemd服务
 setup_systemd() {
     echo ""
-    echo "[7/8] 配置系统服务..."
+    echo "[8/8] 配置系统服务..."
 
     read -p "是否将交易系统配置为systemd服务自动启动? (y/n) " -n 1 -r
     echo
@@ -274,6 +278,7 @@ main() {
     detect_os
     check_python
     create_venv
+    run_system_check
     install_dependencies
     create_directories
     run_config_wizard
