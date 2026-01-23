@@ -597,7 +597,7 @@ def main():
         # 尝试解析JSON值
         try:
             value = json.loads(args.value)
-        except:
+        except (json.JSONDecodeError, ValueError):
             value = args.value
 
         success = manager.set_config_value(args.config, args.key, value)

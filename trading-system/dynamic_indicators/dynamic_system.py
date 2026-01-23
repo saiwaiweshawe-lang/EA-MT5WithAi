@@ -1,5 +1,5 @@
-# 动态指标系统
-# 像人一样智能，指标不写死，根据市场情况动态调整
+# 自适应指标系统
+# 指标参数根据市场情况调整
 
 import numpy as np
 import pandas as pd
@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 class DynamicIndicator:
-    """动态指标基类"""
+    """自适应指标基类"""
 
     def __init__(self, config: Dict):
         self.config = config
@@ -51,7 +51,7 @@ class DynamicIndicator:
 
 
 class DynamicMA(DynamicIndicator):
-    """动态移动平均线"""
+    """自适应移动平均线"""
 
     def __init__(self, config: Dict):
         super().__init__(config)
@@ -165,7 +165,7 @@ class DynamicMA(DynamicIndicator):
 
 
 class DynamicRSI(DynamicIndicator):
-    """动态RSI"""
+    """自适应RSI"""
 
     def __init__(self, config: Dict):
         super().__init__(config)
@@ -174,7 +174,7 @@ class DynamicRSI(DynamicIndicator):
         self.oversold = config.get("oversold", 30)
 
     def calculate(self, data: pd.Series, period: Optional[int] = None) -> Dict:
-        """计算动态RSI"""
+        """计算自适应RSI"""
         if period is None:
             period = self.period
 
@@ -191,7 +191,7 @@ class DynamicRSI(DynamicIndicator):
 
         rsi_value = rsi.iloc[-1]
 
-        # 动态调整超买超卖阈值
+        # 调整超买超卖阈值
         dynamic_ob, dynamic_os = self._dynamic_thresholds(rsi.tail(period * 2))
 
         result = {
@@ -204,13 +204,13 @@ class DynamicRSI(DynamicIndicator):
         return result
 
     def _dynamic_thresholds(self, rsi_series: pd.Series) -> Tuple[float, float]:
-        """动态计算超买超卖阈值"""
+        """计算自适应超买超卖阈值"""
         rsi_values = rsi_series.dropna()
 
         if len(rsi_values) < period := 10:
             return self.overbought, self.oversold
 
-        # 根据RSI分布动态调整
+        # 根据RSI分布调整
         p75 = np.percentile(rsi_values, 75)
         p25 = np.percentile(rsi_values, 25)
 
@@ -223,7 +223,7 @@ class DynamicRSI(DynamicIndicator):
 
 
 class DynamicBollingerBands(DynamicIndicator):
-    """动态布林带"""
+    """自适应布林带"""
 
     def __init__(self, config: Dict):
         super().__init__(config)
@@ -233,13 +233,13 @@ class DynamicBollingerBands(DynamicIndicator):
     def calculate(self, data: pd.Series,
                 period: Optional[int] = None,
                 std_multiplier: Optional[float] = None) -> Dict:
-        """计算动态布林带"""
+        """计算自适应布林带"""
         if period is None:
             period = self.period
         if std_multiplier is None:
             std_multiplier = self.std_multiplier
 
-        # 动态调整周期
+        # 调整周期
         volatility = data.pct_change().tail(period).std()
         dynamic_period = int(period * (1 / (1 + volatility * 10)))
         dynamic_period = max(self.min_period, min(self.max_period, dynamic_period))
@@ -256,7 +256,7 @@ class DynamicBollingerBands(DynamicIndicator):
         current_lower = lower.iloc[-1]
         current_price = data.iloc[-1]
 
-        # 动态调整标准差倍数
+        # 调整标准差倍数
         position = (current_price - current_lower) / (current_upper - current_lower)
         dynamic_std = self._adjust_std_multiplier(position, volatility)
 
@@ -273,7 +273,7 @@ class DynamicBollingerBands(DynamicIndicator):
         return result
 
     def _adjust_std_multiplier(self, position: float, volatility: float) -> float:
-        """动态调整标准差倍数"""
+        """调整标准差倍数"""
         # 高波动时扩大带宽
         if volatility > 0.02:
             return self.std_multiplier * 1.5
@@ -285,7 +285,7 @@ class DynamicBollingerBands(DynamicIndicator):
 
 
 class DynamicMACD(DynamicIndicator):
-    """动态MACD"""
+    """自适应MACD"""
 
     def __init__(self, config: Dict):
         super().__init__(config)
@@ -296,13 +296,13 @@ class DynamicMACD(DynamicIndicator):
     def calculate(self, data: pd.Series,
                 fast_period: Optional[int] = None,
                 slow_period: Optional[int] = None) -> Dict:
-        """计算动态MACD"""
+        """计算自适应MACD"""
         if fast_period is None:
             fast_period = self.fast_period
         if slow_period is None:
             slow_period = self.slow_period
 
-        # 动态调整周期
+        # 调整周期
         trend_strength = self._calculate_trend_strength(data)
 
         if trend_strength > 0.8:
@@ -365,7 +365,7 @@ class DynamicMACD(DynamicIndicator):
 
 
 class DynamicATR(DynamicIndicator):
-    """动态ATR"""
+    """自适应ATR"""
 
     def __init__(self, config: Dict):
         super().__init__(config)
@@ -374,7 +374,7 @@ class DynamicATR(DynamicIndicator):
 
     def calculate(self, data: pd.DataFrame,
                 period: Optional[int] = None) -> Dict:
-        """计算动态ATR"""
+        """计算自适应ATR"""
         if period is None:
             period = self.period
 
@@ -394,7 +394,7 @@ class DynamicATR(DynamicIndicator):
 
         current_atr = atr.iloc[-1]
 
-        # 动态调整倍数
+        # 调整倍数
         atr_ratio = atr.tail(period).std() / atr.tail(period).mean()
         dynamic_multiplier = self.multiplier * (1 + atr_ratio)
 
@@ -418,14 +418,14 @@ class DynamicATR(DynamicIndicator):
 
 
 class DynamicVolume(DynamicIndicator):
-    """动态成交量指标"""
+    """自适应成交量指标"""
 
     def __init__(self, config: Dict):
         super().__init__(config)
         self.period = config.get("period", 20)
 
     def calculate(self, volume: pd.Series, price: pd.Series) -> Dict:
-        """计算动态成交量指标"""
+        """计算自适应成交量指标"""
         if len(volume) < self.period:
             return {"volume_ratio": 1.0, "volume_trend": "neutral"}
 
@@ -467,7 +467,7 @@ class DynamicVolume(DynamicIndicator):
 
 
 class DynamicIndicatorSystem:
-    """动态指标系统 - 整合所有动态指标"""
+    """自适应指标系统 - 整合所有动态指标"""
 
     def __init__(self, config: Dict):
         self.config = config
@@ -649,7 +649,7 @@ class DynamicIndicatorSystem:
 
 
 def create_dynamic_indicator_system(config: Dict) -> DynamicIndicatorSystem:
-    """创建动态指标系统"""
+    """创建自适应指标系统"""
     return DynamicIndicatorSystem(config)
 
 
@@ -686,7 +686,7 @@ if __name__ == "__main__":
     # 计算指标
     results = system.calculate_all(data)
 
-    print("\n动态指标系统结果:")
+    print("\n自适应指标系统结果:")
     print(f"综合信号: {results['composite_signal']}")
     print(f"市场状态: {results['market_state']}")
     print(f"\n各指标详情:")

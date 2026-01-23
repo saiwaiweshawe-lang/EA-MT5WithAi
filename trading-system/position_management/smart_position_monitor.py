@@ -1,4 +1,4 @@
-# 智能持仓监控管理器
+# 持仓监控管理器
 # 自动扫描持仓并基于多维度数据进行智能决策
 
 import os
@@ -64,7 +64,7 @@ class Decision:
 
 
 class SmartPositionMonitor:
-    """智能持仓监控器"""
+    """持仓监控器"""
 
     def __init__(self, config: Dict):
         self.config = config
@@ -129,14 +129,14 @@ class SmartPositionMonitor:
             daemon=True
         )
         self.monitoring_thread.start()
-        logger.info(f"智能持仓监控已启动 (扫描间隔: {self.scan_interval}秒)")
+        logger.info(f"持仓监控已启动 (扫描间隔: {self.scan_interval}秒)")
 
     def stop(self):
         """停止监控"""
         self.is_running = False
         if self.monitoring_thread:
             self.monitoring_thread.join(timeout=5)
-        logger.info("智能持仓监控已停止")
+        logger.info("持仓监控已停止")
 
     def _monitoring_loop(self):
         """监控主循环"""

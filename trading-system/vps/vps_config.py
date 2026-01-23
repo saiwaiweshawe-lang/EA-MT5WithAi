@@ -1,5 +1,5 @@
 # VPS自动适应配置模块
-# 根据服务器硬件自动调整系统参数
+# 根据服务器硬件调整系统参数
 
 import os
 import psutil
@@ -136,7 +136,7 @@ class VPSConfig:
             return "minimal"
 
     def adjust_config(self) -> Dict:
-        """根据系统自动调整配置"""
+        """根据系统调整配置"""
         profile = self.detect_vps_profile()
         logger.info(f"检测到VPS配置文件: {profile}")
 
@@ -495,7 +495,7 @@ if __name__ == "__main__":
     vps = VPSConfig()
     vps.print_system_info()
 
-    # 自动调整配置
+    # 调整配置
     result = vps.adjust_config()
     print(f"\n配置调整完成: {result['profile']}")
 

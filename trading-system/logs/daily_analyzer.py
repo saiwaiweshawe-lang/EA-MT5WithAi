@@ -187,7 +187,7 @@ class DailyProfitAnalyzer:
                 else:
                     periods["night"]["count"] += 1
                     periods["night"]["profit"] += trade["profit"]
-            except:
+            except Exception as e:
                 continue
 
         return periods

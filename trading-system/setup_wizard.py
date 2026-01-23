@@ -341,7 +341,7 @@ class ConfigWizard:
                     **self.configs["position_management_config"].get("free_data_sources", {})
                 }
 
-        enabled = self.get_yes_no("启用智能持仓监控?", True)
+        enabled = self.get_yes_no("启用持仓监控?", True)
         self.configs["position_management_config"]["position_monitor"] = {
             "enabled": enabled,
             "scan_interval_seconds": 60,

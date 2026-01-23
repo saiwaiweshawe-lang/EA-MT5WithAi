@@ -270,7 +270,7 @@ class AIIndicatorSources:
                 "confidence": 0.6,
                 "details": "基于新闻和社交媒体情绪"
             })
-        except:
+        except (requests.RequestException, json.JSONDecodeError, Exception) as e:
             pass
 
         # 3. 技术形态识别
@@ -281,7 +281,7 @@ class AIIndicatorSources:
                 "confidence": 0.55,
                 "details": "识别K线形态和图表模式"
             })
-        except:
+        except (requests.RequestException, json.JSONDecodeError, Exception) as e:
             pass
 
         # 综合评分

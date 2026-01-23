@@ -1,4 +1,4 @@
-# AI模型集成模块
+# 模型集成模块
 # 集成多个AI模型进行交易决策和文本分析
 
 import os
@@ -93,7 +93,7 @@ class OpenAIModel(BaseModel):
 
         try:
             return json.loads(response)
-        except:
+        except (json.JSONDecodeError, ValueError, TypeError, Exception) as e:
             return {
                 "action": "hold",
                 "confidence": 0,
@@ -157,7 +157,7 @@ class AnthropicModel(BaseModel):
 
         try:
             return json.loads(response)
-        except:
+        except (json.JSONDecodeError, ValueError, TypeError, Exception) as e:
             return {
                 "action": "hold",
                 "confidence": 0,
@@ -237,7 +237,7 @@ class DeepSeekModel(BaseModel):
 
         try:
             return json.loads(response)
-        except:
+        except (json.JSONDecodeError, ValueError, TypeError, Exception) as e:
             return {
                 "action": "hold",
                 "confidence": 0,
@@ -313,7 +313,7 @@ class LocalModel(BaseModel):
 
         try:
             return json.loads(response)
-        except:
+        except (json.JSONDecodeError, ValueError, TypeError, Exception) as e:
             return self._rule_based_decision(market_data, indicators, news)
 
     def _simple_analysis(self, prompt: str, context: Optional[Dict]) -> str:

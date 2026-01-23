@@ -393,7 +393,7 @@ class AdvancedTrailingStopEngine:
             try:
                 indicators = self.indicator_system.get_signals(state.symbol)
                 volatility = indicators.get("volatility_level", "medium")
-            except:
+            except Exception as e:
                 pass
 
         # 根据波动性选择策略
