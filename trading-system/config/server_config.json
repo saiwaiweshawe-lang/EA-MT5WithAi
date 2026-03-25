@@ -18,7 +18,7 @@
     }
   },
   "mt5": {
-    "login": 12345678,
+    "login": 11111111,
     "password": "your-mt5-password",
     "server": "your-broker-server",
     "path": ""
