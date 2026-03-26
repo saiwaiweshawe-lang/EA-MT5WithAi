@@ -1,14 +1,41 @@
-python-telegram-bot==20.7
-MetaTrader5==5.0.45
+# Core
 requests==2.31.0
-flask==3.0.0
-flask-cors==4.0.0
 pandas==2.1.4
 numpy==1.26.2
+psutil>=5.9.0
+
+# Trading
+MetaTrader5==5.0.45
 ccxt==4.1.66
+web3>=6.11.0
+
+# AI Models
 openai>=1.0.0
 anthropic>=0.18.0
-psutil>=5.9.0
+
+# Communication
+python-telegram-bot==20.7
+flask==3.0.0
+flask-cors==4.0.0
+
+# News Crawler
 feedparser>=6.0.10
-# v2.2 新增依赖
-web3>=6.11.0
+beautifulsoup4>=4.12.0
+lxml>=4.9.0
+
+# Database
+psycopg2-binary>=2.9.9
+pymysql>=1.1.0
+redis>=5.0.0
+
+# Search
+elasticsearch>=8.11.0
+
+# GUI
+PyQt6>=6.6.0
+
+# Security
+cryptography>=41.0.0
+
+# Build
+pyinstaller>=6.3.0
