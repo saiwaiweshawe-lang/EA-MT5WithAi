@@ -13,10 +13,10 @@ from pathlib import Path
 # 添加项目路径
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from utilities.config_manager import ConfigManager
+from utilities.config_center import ConfigCenter
 
 
-class TestConfigManager(unittest.TestCase):
+class TestConfigCenter(unittest.TestCase):
     """配置管理器测试"""
 
     def setUp(self):
@@ -24,7 +24,7 @@ class TestConfigManager(unittest.TestCase):
         self.test_dir = Path(__file__).parent / "test_configs"
         self.test_dir.mkdir(parents=True, exist_ok=True)
 
-        self.manager = ConfigManager(config_dir=str(self.test_dir))
+        self.manager = ConfigCenter(config_dir=str(self.test_dir))
 
         # 创建测试配置
         self.test_config = {

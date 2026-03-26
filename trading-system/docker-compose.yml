@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  trading-system:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: quant-trader
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./config:/app/config:ro
+      - ./logs:/app/logs
+      - ./data:/app/data
+    environment:
+      - TZ=Asia/Shanghai
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  news-crawler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: news-crawler
+    restart: unless-stopped
+    command: ["python", "main.py", "--crawler"]
+    volumes:
+      - ./config:/app/config:ro
+      - ./logs:/app/logs
+    environment:
+      - TZ=Asia/Shanghai
+
+networks:
+  default:
+    name: trading-network

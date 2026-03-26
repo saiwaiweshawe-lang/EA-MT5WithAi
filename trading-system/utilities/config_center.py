@@ -33,7 +33,7 @@ class ConfigVersion:
     file_path: str
 
 
-class ConfigManager:
+class ConfigCenter:
     """配置管理中心"""
 
     def __init__(self, config_dir: str = None):
