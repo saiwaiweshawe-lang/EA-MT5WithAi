@@ -198,12 +198,16 @@ trading-system/
 - 市场状态识别
 - 综合信号生成
 
-### 新闻聚合
-- CryptoCompare新闻API
-- NewsAPI.org
-- RSS新闻源
-- Finnhub API
-- Twitter/X消息
+### 新闻聚合 (v2.7)
+- Twitter/X 爬虫（Nitter + API）
+- 加密货币新闻（CoinDesk, Cointelegraph, CryptoSlate, The Block）
+- 金融新闻（Yahoo Finance, Bloomberg, Reuters, CNBC）
+- 社群新闻（Reddit, Telegram）
+- RSS 聚合订阅源
+- 多数据库支持（PostgreSQL, MySQL, SQLite）
+- 缓存机制（Memory, Redis）
+- 定时抓取调度
+- Elasticsearch 搜索
 - 情绪分析
 - 相关性评分
 

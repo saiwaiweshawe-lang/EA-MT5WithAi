@@ -1,0 +1,178 @@
+{
+  "news": {
+    "enabled": true,
+    "keywords": [
+      "bitcoin",
+      "btc",
+      "ethereum",
+      "eth",
+      "crypto",
+      "trading",
+      "blockchain",
+      "defi",
+      "nft"
+    ],
+    "rate_limit": 10,
+    "timeout": 10,
+    "cache": {
+      "type": "memory",
+      "ttl": 300
+    },
+    "storage": {
+      "type": "sqlite",
+      "database_path": "news_data.db",
+      "host": "localhost",
+      "port": 5432,
+      "database": "trading_news",
+      "username": "user",
+      "password": "password"
+    },
+    "elasticsearch": {
+      "enabled": false,
+      "hosts": [
+        "localhost:9200"
+      ],
+      "index": "news_articles"
+    },
+    "scheduler": {
+      "enabled": true,
+      "interval_seconds": 300,
+      "cron_expression": null
+    },
+    "sources": {
+      "twitter": {
+        "enabled": true,
+        "nitter_instances": [
+          "https://nitter.net",
+          "https://nitter.poast.org",
+          "https://nitter.fdn.fr"
+        ],
+        "accounts": [
+          "CryptoCom",
+          "binance",
+          "coindesk",
+          "forexcom",
+          "ReutersFinance"
+        ],
+        "use_twitter_api": false,
+        "api_key": "",
+        "api_secret": "",
+        "bearer_token": ""
+      },
+      "crypto": {
+        "enabled": true,
+        "sources": [
+          "coindesk",
+          "cointelegraph",
+          "cryptoslate",
+          "theblock"
+        ],
+        "rss_fallback_to_html": true
+      },
+      "finance": {
+        "enabled": true,
+        "sources": [
+          "yahoo",
+          "reuters",
+          "bloomberg",
+          "cnbc"
+        ],
+        "rss_fallback_to_html": true
+      },
+      "social": {
+        "enabled": true,
+        "reddit_enabled": true,
+        "telegram_enabled": true,
+        "reddit": [
+          "cryptocurrency",
+          "Bitcoin",
+          "ethereum"
+        ],
+        "telegram": [
+          "crypto",
+          "bitcoin"
+        ]
+      },
+      "rss": {
+        "enabled": true,
+        "feeds": [
+          "https://feeds.feedburner.com/coindesk",
+          "https://cointelegraph.com/rss",
+          "https://cryptoslate.com/feed/",
+          "https://www.theblock.co/rss"
+        ]
+      },
+      "decrypt": {
+        "enabled": false,
+        "feeds": [
+          "https://decrypt.co/feed"
+        ]
+      },
+      "bitcoinist": {
+        "enabled": false,
+        "feeds": [
+          "https://bitcoinist.com/feed/"
+        ]
+      },
+      "ccn": {
+        "enabled": false,
+        "feeds": [
+          "https://www.cryptonews.com/feed"
+        ]
+      },
+      "fxstreet": {
+        "enabled": false,
+        "feeds": [
+          "https://www.fxstreet.com/rss/news"
+        ]
+      },
+      "investing": {
+        "enabled": false,
+        "feeds": [
+          "https://www.investing.com/rss/news.rss"
+        ]
+      }
+    },
+    "sentiment": {
+      "positive_words": [
+        "bull",
+        "bullish",
+        "rise",
+        "gain",
+        "surge",
+        "rally",
+        "growth",
+        "positive",
+        "upgrade",
+        "strong",
+        "breakout",
+        "high",
+        "up",
+        "突破",
+        "上涨",
+        "利好",
+        "增长"
+      ],
+      "negative_words": [
+        "bear",
+        "bearish",
+        "fall",
+        "drop",
+        "plunge",
+        "crash",
+        "decline",
+        "negative",
+        "downgrade",
+        "weak",
+        "crisis",
+        "low",
+        "down",
+        "sell",
+        "下跌",
+        "暴跌",
+        "利空",
+        "衰退"
+      ]
+    }
+  }
+}
