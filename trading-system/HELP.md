@@ -1,4 +1,4 @@
-# 量化交易系统 v2.8 帮助指南
+# 量化交易系统 V1.0.0 帮助指南
 
 ## 目录
 
@@ -289,6 +289,7 @@ python client/main.py
 ## 联系与支持
 
 - GitHub Issues: https://github.com/saiwaiweshawe-lang/EA-MT5WithAi/issues
+- 邮箱: saiweiweshawe@gmail.com
 - 项目文档: 查看项目 README.md
 
 ---

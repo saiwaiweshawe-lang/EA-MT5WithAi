@@ -10,7 +10,7 @@ from PyQt6.QtGui import QAction, QIcon
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("量化交易系统 v2.8")
+        self.setWindowTitle("量化交易系统 V1.0.0")
         self.setMinimumSize(1200, 800)
         
         self.config_manager = None
@@ -386,7 +386,7 @@ class MainWindow(QMainWindow):
         QMessageBox.about(
             self,
             "关于",
-            "量化交易系统 v2.8\n\n"
+            "量化交易系统 V1.0.0\n\n"
             "开源量化交易客户端\n"
             "支持 MT5 / Binance / OKX / Bybit\n\n"
             "基于 PyQt6 构建"
